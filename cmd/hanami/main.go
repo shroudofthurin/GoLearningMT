@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/item"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
@@ -54,7 +55,7 @@ var locations = location.Locations{
 	},
 	"porch": &location.Location{
 		"Porch",
-		"You can see the street, your mailbox, and your flower garden.",
+		"You can see the your front yard from here.",
 		map[string]string{
 			"south": "front yard",
 			"north": "entryway",
@@ -156,7 +157,8 @@ var locations = location.Locations{
 }
 
 func main() {
+	line := liner.NewLiner()
+	defer line.Close()
+
 	fmt.Println("Let's Hanami!")
-	fmt.Println(locations["store"])
-	fmt.Println(items)
 }
