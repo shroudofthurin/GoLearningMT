@@ -3,8 +3,28 @@ package main
 import (
 	"fmt"
 
+	"github.com/shroudofthurin/GoLearningMT/item"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
+
+var items = map[string]*item.Item{
+	"tote bag":      {"Tote Bag"},
+	"invitation":    {"Invitation"},
+	"blanket":       {"Blanket"},
+	"cards":         {"Cards"},
+	"strawberries":  {"Strawberries"},
+	"ice":           {"Ice"},
+	"cups":          {"Cups"},
+	"scissor":       {"Scissor"},
+	"wallet":        {"Wallet"},
+	"cake":          {"Cake"},
+	"refrigerator":  {"Refrigerator"},
+	"tv":            {"Television"},
+	"mailbox":       {"Mailbox"},
+	"flower":        {"Flower"},
+	"sakura":        {"Sakura Tree"},
+	"cash register": {"Cash Register"},
+}
 
 var locations = location.Locations{
 	"store": &location.Location{
@@ -19,32 +39,32 @@ var locations = location.Locations{
 		"At one end is a store and the other your porch.",
 		map[string]string{
 			"west":  "store",
-			"north": "porch",
+			"north": "front yard",
 			"south": "park",
+		},
+	},
+	"front yard": &location.Location{
+		"Front Yard",
+		"It's where you have your garden, mailbox, and leads you to your porch.",
+		map[string]string{
+			"north": "porch",
+			"south": "street",
+			"west":  "flower garden",
 		},
 	},
 	"porch": &location.Location{
 		"Porch",
 		"You can see the street, your mailbox, and your flower garden.",
 		map[string]string{
-			"south": "street",
-			"west":  "flowergarden",
-			"east":  "mailbox",
+			"south": "front yard",
 			"north": "entryway",
 		},
 	},
-	"mailbox": &location.Location{
-		"Mailbox",
-		"It's where you recieve your mail.",
-		map[string]string{
-			"west": "porch",
-		},
-	},
-	"flowergarden": &location.Location{
+	"flower garden": &location.Location{
 		"Flower Garden",
 		"Your flower are in full bloom.",
 		map[string]string{
-			"east": "porch",
+			"east": "front yard",
 		},
 	},
 	"entrway": &location.Location{
@@ -69,11 +89,11 @@ var locations = location.Locations{
 		map[string]string{
 			"north": "engawa",
 			"south": "entryway",
-			"east":  "livingroom",
+			"east":  "living room",
 			"west":  "bedroom",
 		},
 	},
-	"livingroom": &location.Location{
+	"living room": &location.Location{
 		"Living Room",
 		"A place to relax and watch TV.",
 		map[string]string{
@@ -123,10 +143,10 @@ var locations = location.Locations{
 		"This lush green park is perfect for celebrating hanami.",
 		map[string]string{
 			"north": "street",
-			"south": "cherryblossoms",
+			"south": "cherry blossoms",
 		},
 	},
-	"cherryblossoms": &location.Location{
+	"cherry blossoms": &location.Location{
 		"Cherry Blossoms",
 		"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
 		map[string]string{
@@ -138,4 +158,5 @@ var locations = location.Locations{
 func main() {
 	fmt.Println("Let's Hanami!")
 	fmt.Println(locations["store"])
+	fmt.Println(items)
 }
