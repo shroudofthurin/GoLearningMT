@@ -20,6 +20,7 @@ func (g Game) DescribeCurrentLocation() {
 }
 
 func (g Game) DescribeExits() {
+	fmt.Println("Exits:")
 	for k, v := range g.Location.Exits {
 		fmt.Printf("%s - %s\n", k, v.Name)
 	}

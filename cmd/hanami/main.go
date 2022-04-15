@@ -28,90 +28,89 @@ var items = map[string]*item.Item{
 	"cash register": {"Cash Register"},
 }
 
-var locations = location.Locations{
-	"store": &location.Location{
-		"Store",
-		"A place where you can buy ice.",
-		make(map[string]*location.Location),
-	},
-	"street": &location.Location{
-		"Street",
-		"At one end is a store and the other your porch.",
-		make(map[string]*location.Location),
-	},
-	"front yard": &location.Location{
-		"Front Yard",
-		"It's where you have your garden, mailbox, and leads you to your porch.",
-		make(map[string]*location.Location),
-	},
-	"porch": &location.Location{
-		"Porch",
-		"You can see the your front yard from here.",
-		make(map[string]*location.Location),
-	},
-	"flower garden": &location.Location{
-		"Flower Garden",
-		"Your flower are in full bloom.",
-		make(map[string]*location.Location),
-	},
-	"entryway": &location.Location{
-		"Entryway",
-		"A place to put your bags, keys, and shoes.",
-		make(map[string]*location.Location),
-	},
-	"kitchen": &location.Location{
-		"Kitchen",
-		"A place where meals are made and enjoyed.",
-		make(map[string]*location.Location),
-	},
-	"hallway": &location.Location{
-		"Hallway",
-		"A place that connects you to other rooms.",
-		make(map[string]*location.Location),
-	},
-	"living room": &location.Location{
-		"Living Room",
-		"A place to relax and watch TV.",
-		make(map[string]*location.Location),
-	},
-	"bedroom": &location.Location{
-		"Bedroom",
-		"A place where you sleep and study.",
-		make(map[string]*location.Location),
-	},
-	"closet": &location.Location{
-		"Closet",
-		"A place jackets, blankets, and games are stored.",
-		make(map[string]*location.Location),
-	},
-	"engawa": &location.Location{
-		"Engawa",
-		"A place where you can sit and relax, or follow the gravel path.",
-		make(map[string]*location.Location),
-	},
-	"gravel path": &location.Location{
-		"Gravel Path",
-		"A gravel path that leads you to your garden.",
-		make(map[string]*location.Location),
-	},
-	"garden": &location.Location{
-		"Garden",
-		"There is fruit and vegetables a plenty. The strawberries are ready to be picked.",
-		make(map[string]*location.Location),
-	},
-	"park": &location.Location{
-		"Park",
-		"This lush green park is perfect for celebrating hanami.",
-		make(map[string]*location.Location),
-	},
-	"cherry blossoms": &location.Location{
-		"Cherry Blossoms",
-		"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
-		make(map[string]*location.Location),
-	},
-}
-
-func SetExits() {
+func CreateLocations() location.Locations {
+	locations := location.Locations{
+		"store": &location.Location{
+			"Store",
+			"A place where you can buy ice.",
+			make(map[string]*location.Location),
+		},
+		"street": &location.Location{
+			"Street",
+			"At one end is a store and the other your porch.",
+			make(map[string]*location.Location),
+		},
+		"front yard": &location.Location{
+			"Front Yard",
+			"It's where you have your garden, mailbox, and leads you to your porch.",
+			make(map[string]*location.Location),
+		},
+		"porch": &location.Location{
+			"Porch",
+			"You can see the your front yard from here.",
+			make(map[string]*location.Location),
+		},
+		"flower garden": &location.Location{
+			"Flower Garden",
+			"Your flower are in full bloom.",
+			make(map[string]*location.Location),
+		},
+		"entryway": &location.Location{
+			"Entryway",
+			"A place to put your bags, keys, and shoes.",
+			make(map[string]*location.Location),
+		},
+		"kitchen": &location.Location{
+			"Kitchen",
+			"A place where meals are made and enjoyed.",
+			make(map[string]*location.Location),
+		},
+		"hallway": &location.Location{
+			"Hallway",
+			"A place that connects you to other rooms.",
+			make(map[string]*location.Location),
+		},
+		"living room": &location.Location{
+			"Living Room",
+			"A place to relax and watch TV.",
+			make(map[string]*location.Location),
+		},
+		"bedroom": &location.Location{
+			"Bedroom",
+			"A place where you sleep and study.",
+			make(map[string]*location.Location),
+		},
+		"closet": &location.Location{
+			"Closet",
+			"A place jackets, blankets, and games are stored.",
+			make(map[string]*location.Location),
+		},
+		"engawa": &location.Location{
+			"Engawa",
+			"A place where you can sit and relax, or follow the gravel path.",
+			make(map[string]*location.Location),
+		},
+		"gravel path": &location.Location{
+			"Gravel Path",
+			"A gravel path that leads you to your garden.",
+			make(map[string]*location.Location),
+		},
+		"garden": &location.Location{
+			"Garden",
+			"There is fruit and vegetables a plenty. The strawberries are ready to be picked.",
+			make(map[string]*location.Location),
+		},
+		"park": &location.Location{
+			"Park",
+			"This lush green park is perfect for celebrating hanami.",
+			make(map[string]*location.Location),
+		},
+		"cherry blossoms": &location.Location{
+			"Cherry Blossoms",
+			"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
+			make(map[string]*location.Location),
+		},
+	}
 	locations["store"].Exits = map[string]*location.Location{
 		"east": locations["street"],
 	}
@@ -174,16 +173,28 @@ func SetExits() {
 	locations["garden"].Exits = map[string]*location.Location{
 		"south": locations["gravel path"],
 	}
+
+	return locations
 }
 
 func main() {
 	line := liner.NewLiner()
 	defer line.Close()
 
-	SetExits()
+	line.SetCtrlCAborts(true)
+
+	locations := CreateLocations()
 
 	fmt.Println("Let's Hanami!")
 
 	game := &game.Game{locations["front yard"]}
 	game.Describe()
+
+	if cmd, err := line.Prompt("What do you want to do? "); err == nil {
+		fmt.Print("Got: ", cmd)
+	} else if err == liner.ErrPromptAborted {
+		fmt.Println("Aborted.")
+	} else {
+		fmt.Println("Error reading line: ", err)
+	}
 }
