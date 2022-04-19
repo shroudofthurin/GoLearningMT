@@ -78,7 +78,7 @@ func getDirection(cmd string) string {
 	} else if direction == "w" || strings.Contains(direction, "west") {
 		return "west"
 	} else if direction == "q" || strings.Contains(direction, "quit") {
-		return "exit"
+		return "quit"
 	} else {
 		return ""
 	}
