@@ -25,7 +25,7 @@ func (g Game) DescribeCurrentLocation() {
 func (g Game) DescribeExits() {
 	fmt.Println("\nExits:")
 	for k, v := range g.Location.Exits {
-		fmt.Printf("%s - %s\n", k, v.Name)
+		fmt.Printf("%s - %s\n", strings.Title(k), v.Name)
 	}
 	fmt.Println("\n")
 }
@@ -34,7 +34,7 @@ func (g *Game) Move(to string) {
 	location, ok := g.Location.Exits[to]
 
 	if !ok {
-		fmt.Println("You can't go that direction!!")
+		fmt.Println("\nYou can't go that direction!!\n")
 		return
 	}
 
@@ -46,25 +46,23 @@ func (g *Game) Play() {
 	var cmd string
 
 	fmt.Println("Let's Hanami!\n")
+	g.Describe()
 
 	for {
-		g.Describe()
-
 		cmd, err = g.Line.Prompt("What do you want to do? ")
 
 		direction := getDirection(cmd)
 		fmt.Printf("Direction: %v\n", direction)
 
-		if direction == "exit" || err != nil {
+		if direction == "quit" {
 			fmt.Println("Quitting game.")
 			break
 		} else if err == liner.ErrPromptAborted {
 			fmt.Println("Aborted.")
 		}
 
-		fmt.Println("\n")
 		g.Move(direction)
-		fmt.Println("\n")
+		g.Describe()
 	}
 }
 
@@ -79,7 +77,7 @@ func getDirection(cmd string) string {
 		return "east"
 	} else if direction == "w" || strings.Contains(direction, "west") {
 		return "west"
-	} else if direction == "q" || strings.Contains(direction, "exit") {
+	} else if direction == "q" || strings.Contains(direction, "quit") {
 		return "exit"
 	} else {
 		return ""
