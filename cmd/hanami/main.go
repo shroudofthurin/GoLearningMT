@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/game"
 	"github.com/shroudofthurin/GoLearningMT/item"
@@ -185,16 +183,6 @@ func main() {
 
 	locations := CreateLocations()
 
-	fmt.Println("Let's Hanami!")
-
-	game := &game.Game{locations["front yard"]}
-	game.Describe()
-
-	if cmd, err := line.Prompt("What do you want to do? "); err == nil {
-		fmt.Print("Got: ", cmd)
-	} else if err == liner.ErrPromptAborted {
-		fmt.Println("Aborted.")
-	} else {
-		fmt.Println("Error reading line: ", err)
-	}
+	game := &game.Game{line, locations["front yard"]}
+	game.Play()
 }
