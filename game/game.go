@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/location"
@@ -22,20 +23,65 @@ func (g Game) DescribeCurrentLocation() {
 }
 
 func (g Game) DescribeExits() {
-	fmt.Println("Exits:")
+	fmt.Println("\nExits:")
 	for k, v := range g.Location.Exits {
 		fmt.Printf("%s - %s\n", k, v.Name)
 	}
+	fmt.Println("\n")
+}
+
+func (g *Game) Move(to string) {
+	location, ok := g.Location.Exits[to]
+
+	if !ok {
+		fmt.Println("You can't go that direction!!")
+		return
+	}
+
+	g.Location = location
 }
 
 func (g *Game) Play() {
-	fmt.Println("Let's Hanami!")
+	var err error
+	var cmd string
 
-	if cmd, err := g.Line.Prompt("What do you want to do? "); err == nil {
-		fmt.Print("Got: ", cmd)
-	} else if err == liner.ErrPromptAborted {
-		fmt.Println("Aborted.")
+	fmt.Println("Let's Hanami!\n")
+
+	for {
+		g.Describe()
+
+		cmd, err = g.Line.Prompt("What do you want to do? ")
+
+		direction := getDirection(cmd)
+		fmt.Printf("Direction: %v\n", direction)
+
+		if direction == "exit" || err != nil {
+			fmt.Println("Quitting game.")
+			break
+		} else if err == liner.ErrPromptAborted {
+			fmt.Println("Aborted.")
+		}
+
+		fmt.Println("\n")
+		g.Move(direction)
+		fmt.Println("\n")
+	}
+}
+
+func getDirection(cmd string) string {
+	direction := strings.ToLower(cmd)
+
+	if direction == "n" || strings.Contains(direction, "north") {
+		return "north"
+	} else if direction == "s" || strings.Contains(direction, "south") {
+		return "south"
+	} else if direction == "e" || strings.Contains(direction, "east") {
+		return "east"
+	} else if direction == "w" || strings.Contains(direction, "west") {
+		return "west"
+	} else if direction == "q" || strings.Contains(direction, "exit") {
+		return "exit"
 	} else {
-		fmt.Println("Error reading line: ", err)
+		return ""
 	}
 }
