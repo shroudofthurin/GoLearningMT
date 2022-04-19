@@ -1,176 +1,181 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/game"
 	"github.com/shroudofthurin/GoLearningMT/item"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
 
-var items = map[string]*item.Item{
-	"tote bag":      {"Tote Bag"},
-	"invitation":    {"Invitation"},
-	"blanket":       {"Blanket"},
-	"cards":         {"Cards"},
-	"strawberries":  {"Strawberries"},
-	"ice":           {"Ice"},
-	"cups":          {"Cups"},
-	"scissor":       {"Scissor"},
-	"wallet":        {"Wallet"},
-	"cake":          {"Cake"},
-	"refrigerator":  {"Refrigerator"},
-	"tv":            {"Television"},
-	"mailbox":       {"Mailbox"},
-	"flower":        {"Flower"},
-	"sakura":        {"Sakura Tree"},
-	"cash register": {"Cash Register"},
+func CreateItems() item.Items {
+	items := item.Items{
+		"tote bag":      {"Tote Bag", true},
+		"invitation":    {"Invitation", false},
+		"blanket":       {"Blanket", false},
+		"cards":         {"Cards", false},
+		"strawberries":  {"Strawberries", false},
+		"ice":           {"Ice", false},
+		"cups":          {"Cups", false},
+		"scissor":       {"Scissor", false},
+		"wallet":        {"Wallet", false},
+		"cake":          {"Cake", false},
+		"refrigerator":  {"Refrigerator", true},
+		"tv":            {"Television", false},
+		"mailbox":       {"Mailbox", true},
+		"flower":        {"Flower", false},
+		"sakura":        {"Sakura Tree", false},
+		"cash register": {"Cash Register", false},
+	}
+
+	return items
 }
 
-func CreateLocations() location.Locations {
+func CreateLocations(items item.Items) location.Locations {
 	locations := location.Locations{
-		"store": &location.Location{
+		"store": location.New(
 			"Store",
 			"A place where you can buy ice.",
-			make(map[string]*location.Location),
-		},
-		"street": &location.Location{
+		),
+		"street": location.New(
 			"Street",
 			"At one end is a store and the other your porch.",
-			make(map[string]*location.Location),
-		},
-		"front yard": &location.Location{
+		),
+		"front yard": location.New(
 			"Front Yard",
-			"It's where you have your garden, mailbox, and leads you to your porch.",
-			make(map[string]*location.Location),
-		},
-		"porch": &location.Location{
+			"It's where you have your mailbox.",
+		),
+		"porch": location.New(
 			"Porch",
 			"You can see the your front yard from here.",
-			make(map[string]*location.Location),
-		},
-		"flower garden": &location.Location{
+		),
+		"flower garden": location.New(
 			"Flower Garden",
 			"Your flower are in full bloom.",
-			make(map[string]*location.Location),
-		},
-		"entryway": &location.Location{
+		),
+		"entryway": location.New(
 			"Entryway",
 			"A place to put your bags, keys, and shoes.",
-			make(map[string]*location.Location),
-		},
-		"kitchen": &location.Location{
+		),
+		"kitchen": location.New(
 			"Kitchen",
 			"A place where meals are made and enjoyed.",
-			make(map[string]*location.Location),
-		},
-		"hallway": &location.Location{
+		),
+		"hallway": location.New(
 			"Hallway",
 			"A place that connects you to other rooms.",
-			make(map[string]*location.Location),
-		},
-		"living room": &location.Location{
+		),
+		"living room": location.New(
 			"Living Room",
 			"A place to relax and watch TV.",
-			make(map[string]*location.Location),
-		},
-		"bedroom": &location.Location{
+		),
+		"bedroom": location.New(
 			"Bedroom",
 			"A place where you sleep and study.",
-			make(map[string]*location.Location),
-		},
-		"closet": &location.Location{
+		),
+		"closet": location.New(
 			"Closet",
 			"A place jackets, blankets, and games are stored.",
-			make(map[string]*location.Location),
-		},
-		"engawa": &location.Location{
+		),
+		"engawa": location.New(
 			"Engawa",
 			"A place where you can sit and relax, or follow the gravel path.",
-			make(map[string]*location.Location),
-		},
-		"gravel path": &location.Location{
+		),
+		"gravel path": location.New(
 			"Gravel Path",
 			"A gravel path that leads you to your garden.",
-			make(map[string]*location.Location),
-		},
-		"garden": &location.Location{
+		),
+		"garden": location.New(
 			"Garden",
 			"There is fruit and vegetables a plenty. The strawberries are ready to be picked.",
-			make(map[string]*location.Location),
-		},
-		"park": &location.Location{
+		),
+		"park": location.New(
 			"Park",
 			"This lush green park is perfect for celebrating hanami.",
-			make(map[string]*location.Location),
-		},
-		"cherry blossoms": &location.Location{
+		),
+		"cherry blossoms": location.New(
 			"Cherry Blossoms",
 			"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
-			make(map[string]*location.Location),
-		},
+		),
 	}
-	locations["store"].Exits = map[string]*location.Location{
+	locations["store"].SetExits(location.Locations{
 		"east": locations["street"],
-	}
-	locations["street"].Exits = map[string]*location.Location{
+	})
+	locations["street"].SetExits(location.Locations{
 		"north": locations["front yard"],
 		"south": locations["park"],
 		"west":  locations["store"],
-	}
-	locations["park"].Exits = map[string]*location.Location{
+	})
+	locations["park"].SetExits(location.Locations{
 		"north": locations["street"],
 		"south": locations["cherry blossoms"],
-	}
-	locations["cherry blossoms"].Exits = map[string]*location.Location{
+	})
+	locations["cherry blossoms"].SetExits(location.Locations{
 		"north": locations["park"],
-	}
-	locations["front yard"].Exits = map[string]*location.Location{
+	})
+	locations["front yard"].SetExits(location.Locations{
 		"north": locations["porch"],
 		"south": locations["street"],
 		"west":  locations["flower garden"],
-	}
-	locations["flower garden"].Exits = map[string]*location.Location{
+	})
+	locations["flower garden"].SetExits(location.Locations{
 		"east": locations["front yard"],
-	}
-	locations["porch"].Exits = map[string]*location.Location{
+	})
+	locations["porch"].SetExits(location.Locations{
 		"north": locations["entryway"],
 		"south": locations["front yard"],
-	}
-	locations["entryway"].Exits = map[string]*location.Location{
+	})
+	locations["entryway"].SetExits(location.Locations{
 		"north": locations["hallway"],
 		"south": locations["porch"],
 		"east":  locations["kitchen"],
-	}
-	locations["kitchen"].Exits = map[string]*location.Location{
+	})
+	locations["kitchen"].SetExits(location.Locations{
 		"west": locations["entryway"],
-	}
-	locations["hallway"].Exits = map[string]*location.Location{
+	})
+	locations["hallway"].SetExits(location.Locations{
 		"north": locations["engawa"],
 		"south": locations["entryway"],
 		"east":  locations["living room"],
 		"west":  locations["bedroom"],
-	}
-	locations["living room"].Exits = map[string]*location.Location{
+	})
+	locations["living room"].SetExits(location.Locations{
 		"west": locations["hallway"],
-	}
-	locations["bedroom"].Exits = map[string]*location.Location{
+	})
+	locations["bedroom"].SetExits(location.Locations{
 		"east":  locations["hallway"],
 		"south": locations["closet"],
-	}
-	locations["closet"].Exits = map[string]*location.Location{
+	})
+	locations["closet"].SetExits(location.Locations{
 		"north": locations["bedroom"],
-	}
-	locations["engawa"].Exits = map[string]*location.Location{
+	})
+	locations["engawa"].SetExits(location.Locations{
 		"north": locations["gravel path"],
 		"south": locations["hallway"],
-	}
-	locations["gravel path"].Exits = map[string]*location.Location{
+	})
+	locations["gravel path"].SetExits(location.Locations{
 		"north": locations["garden"],
 		"south": locations["engawa"],
-	}
-	locations["garden"].Exits = map[string]*location.Location{
+	})
+	locations["garden"].SetExits(location.Locations{
 		"south": locations["gravel path"],
-	}
+	})
+
+	locations["store"].AddItem(items["ice"])
+	locations["store"].AddItem(items["cups"])
+	locations["store"].AddItem(items["cash register"])
+	locations["garden"].AddItem(items["scissor"])
+	locations["garden"].AddItem(items["strawberries"])
+	locations["garden"].AddItem(items["flower"])
+	locations["entryway"].AddItem(items["tote bag"])
+	locations["entryway"].AddItem(items["wallet"])
+	locations["living room"].AddItem(items["tv"])
+	locations["kitchen"].AddItem(items["refrigerator"])
+	locations["bedroom"].AddItem(items["blanket"])
+	locations["closet"].AddItem(items["cards"])
+	locations["cherry blossoms"].AddItem(items["sakura"])
+	locations["front yard"].AddItem(items["mailbox"])
 
 	return locations
 }
@@ -181,7 +186,9 @@ func main() {
 
 	line.SetCtrlCAborts(true)
 
-	locations := CreateLocations()
+	items := CreateItems()
+	fmt.Println(items["mailbox"])
+	locations := CreateLocations(items)
 
 	game := &game.Game{line, locations["front yard"]}
 	game.Play()

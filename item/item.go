@@ -1,5 +1,8 @@
 package item
 
 type Item struct {
-	Name string
+	Name     string
+	Openable bool
 }
+
+type Items map[string]*Item
