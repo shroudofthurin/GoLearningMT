@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/game"
 	"github.com/shroudofthurin/GoLearningMT/item"
@@ -187,7 +185,6 @@ func main() {
 	line.SetCtrlCAborts(true)
 
 	items := CreateItems()
-	fmt.Println(items["mailbox"])
 	locations := CreateLocations(items)
 
 	game := &game.Game{line, locations["front yard"]}
