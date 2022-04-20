@@ -33,3 +33,9 @@ func SetExits(locations Locations, names ...string) {
 		locations[names[0]].Exits[names[i]] = locations[names[i+1]]
 	}
 }
+
+func SetItems(locations Locations, items item.Items, names ...string) {
+	for i := 1; i < len(names); i++ {
+		locations[names[0]].Items[names[i]] = items[names[i]]
+	}
+}
