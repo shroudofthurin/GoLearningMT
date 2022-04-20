@@ -22,12 +22,14 @@ func New(name, description string) *Location {
 	return &location
 }
 
-func (l *Location) SetExits(exits Locations) {
-	l.Exits = exits
-}
-
 func (l *Location) AddItem(item *item.Item) {
 	l.Items[item.Name] = item
 }
 
 type Locations map[string]*Location
+
+func SetExits(locations Locations, names ...string) {
+	for i := 1; i < len(names); i += 2 {
+		locations[names[0]].Exits[names[i]] = locations[names[i+1]]
+	}
+}

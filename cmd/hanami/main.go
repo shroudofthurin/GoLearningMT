@@ -97,68 +97,22 @@ func CreateLocations(items item.Items) location.Locations {
 			"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
 		),
 	}
-	locations["store"].SetExits(location.Locations{
-		"east": locations["street"],
-	})
-	locations["street"].SetExits(location.Locations{
-		"north": locations["front yard"],
-		"south": locations["park"],
-		"west":  locations["store"],
-	})
-	locations["park"].SetExits(location.Locations{
-		"north": locations["street"],
-		"south": locations["cherry blossoms"],
-	})
-	locations["cherry blossoms"].SetExits(location.Locations{
-		"north": locations["park"],
-	})
-	locations["front yard"].SetExits(location.Locations{
-		"north": locations["porch"],
-		"south": locations["street"],
-		"west":  locations["flower garden"],
-	})
-	locations["flower garden"].SetExits(location.Locations{
-		"east": locations["front yard"],
-	})
-	locations["porch"].SetExits(location.Locations{
-		"north": locations["entryway"],
-		"south": locations["front yard"],
-	})
-	locations["entryway"].SetExits(location.Locations{
-		"north": locations["hallway"],
-		"south": locations["porch"],
-		"east":  locations["kitchen"],
-	})
-	locations["kitchen"].SetExits(location.Locations{
-		"west": locations["entryway"],
-	})
-	locations["hallway"].SetExits(location.Locations{
-		"north": locations["engawa"],
-		"south": locations["entryway"],
-		"east":  locations["living room"],
-		"west":  locations["bedroom"],
-	})
-	locations["living room"].SetExits(location.Locations{
-		"west": locations["hallway"],
-	})
-	locations["bedroom"].SetExits(location.Locations{
-		"east":  locations["hallway"],
-		"south": locations["closet"],
-	})
-	locations["closet"].SetExits(location.Locations{
-		"north": locations["bedroom"],
-	})
-	locations["engawa"].SetExits(location.Locations{
-		"north": locations["gravel path"],
-		"south": locations["hallway"],
-	})
-	locations["gravel path"].SetExits(location.Locations{
-		"north": locations["garden"],
-		"south": locations["engawa"],
-	})
-	locations["garden"].SetExits(location.Locations{
-		"south": locations["gravel path"],
-	})
+	location.SetExits(locations, "store", "east", "street")
+	location.SetExits(locations, "street", "north", "front yard", "south", "park", "west", "store")
+	location.SetExits(locations, "park", "north", "street", "south", "cherry blossoms")
+	location.SetExits(locations, "cherry blossoms", "north", "park")
+	location.SetExits(locations, "front yard", "north", "porch", "south", "street", "west", "flower garden")
+	location.SetExits(locations, "flower garden", "east", "front yard")
+	location.SetExits(locations, "porch", "north", "entryway", "south", "front yard")
+	location.SetExits(locations, "entryway", "north", "hallway", "south", "porch", "east", "kitchen")
+	location.SetExits(locations, "kitchen", "west", "entryway")
+	location.SetExits(locations, "hallway", "north", "engawa", "south", "entryway", "east", "living room", "west", "bedroom")
+	location.SetExits(locations, "living room", "west", "hallway")
+	location.SetExits(locations, "bedroom", "south", "closet", "east", "hallway")
+	location.SetExits(locations, "closet", "north", "bedroom")
+	location.SetExits(locations, "engawa", "north", "gravel path", "south", "hallway")
+	location.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
+	location.SetExits(locations, "garden", "south", "gravel path")
 
 	locations["store"].AddItem(items["ice"])
 	locations["store"].AddItem(items["cups"])
