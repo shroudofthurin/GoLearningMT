@@ -22,10 +22,6 @@ func New(name, description string) *Location {
 	return &location
 }
 
-func (l *Location) AddItem(item *item.Item) {
-	l.Items[item.Name] = item
-}
-
 type Locations map[string]*Location
 
 func SetExits(locations Locations, names ...string) {
