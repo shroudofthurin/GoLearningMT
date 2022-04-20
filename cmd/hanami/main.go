@@ -9,23 +9,27 @@ import (
 
 func CreateItems() item.Items {
 	items := item.Items{
-		"tote bag":      {"Tote Bag", true},
-		"invitation":    {"Invitation", false},
-		"blanket":       {"Blanket", false},
-		"cards":         {"Cards", false},
-		"strawberries":  {"Strawberries", false},
-		"ice":           {"Ice", false},
-		"cups":          {"Cups", false},
-		"scissor":       {"Scissor", false},
-		"wallet":        {"Wallet", false},
-		"cake":          {"Cake", false},
-		"refrigerator":  {"Refrigerator", true},
-		"tv":            {"Television", false},
-		"mailbox":       {"Mailbox", true},
-		"flower":        {"Flower", false},
-		"sakura":        {"Sakura Tree", false},
-		"cash register": {"Cash Register", false},
+		"tote bag":      item.New("Tote Bag", true),
+		"invitation":    item.New("Invitation", false),
+		"blanket":       item.New("Blanket", false),
+		"cards":         item.New("Cards", false),
+		"strawberries":  item.New("Strawberries", false),
+		"ice":           item.New("Ice", false),
+		"cups":          item.New("Cups", false),
+		"checklist":     item.New("Hanami Party Checklist", false),
+		"wallet":        item.New("Wallet", false),
+		"cake":          item.New("Cake", false),
+		"refrigerator":  item.New("Refrigerator", true),
+		"tv":            item.New("Television", false),
+		"mailbox":       item.New("Mailbox", true),
+		"flower":        item.New("Flower", false),
+		"sakura":        item.New("Sakura Tree", false),
+		"cash register": item.New("Cash Register", false),
 	}
+
+	item.SetContains(items, "mailbox", "invitation", "checklist")
+	item.SetContains(items, "refrigerator", "cake")
+	item.SetContains(items, "tote bag", "wallet")
 
 	return items
 }
@@ -115,9 +119,9 @@ func CreateLocations(items item.Items) location.Locations {
 	location.SetExits(locations, "garden", "south", "gravel path")
 
 	location.SetItems(locations, items, "store", "ice", "cups", "cash register")
-	location.SetItems(locations, items, "garden", "scissor", "strawberries")
+	location.SetItems(locations, items, "garden", "strawberries")
 	location.SetItems(locations, items, "flower garden", "flower")
-	location.SetItems(locations, items, "entryway", "tote bag", "wallet")
+	location.SetItems(locations, items, "entryway", "tote bag")
 	location.SetItems(locations, items, "living room", "tv")
 	location.SetItems(locations, items, "kitchen", "refrigerator")
 	location.SetItems(locations, items, "bedroom", "blanket")
