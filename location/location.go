@@ -7,16 +7,16 @@ import (
 type Location struct {
 	Name        string
 	Description string
-	Exits       map[string]*Location
-	Items       map[string]*item.Item
+	Exits       Locations
+	Items       item.Items
 }
 
 func New(name, description string) *Location {
 	location := Location{
 		name,
 		description,
-		make(map[string]*Location),
-		make(map[string]*item.Item),
+		make(Locations),
+		make(item.Items),
 	}
 
 	return &location

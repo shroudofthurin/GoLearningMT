@@ -5,12 +5,23 @@ import (
 	"strings"
 
 	"github.com/peterh/liner"
+	"github.com/shroudofthurin/GoLearningMT/game/command"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
 
 type Game struct {
-	Line     *liner.State
-	Location *location.Location
+	Line        *liner.State
+	Location    *location.Location
+	CommandList command.CommandList
+}
+
+func New(line *liner.State, location *location.Location) *Game {
+	game := Game{line, location, make(command.CommandList)}
+	return &game
+}
+
+func (g *Game) SetCommandList(commands command.CommandList) {
+	g.CommandList = commands
 }
 
 func (g Game) Describe() {
@@ -42,27 +53,41 @@ func (g *Game) Move(to string) {
 }
 
 func (g *Game) Play() {
-	var err error
-	var cmd string
 
 	fmt.Println("Let's Hanami!\n")
 	g.Describe()
 
 	for {
-		cmd, err = g.Line.Prompt("What do you want to do? ")
+		cmd, err := g.Line.Prompt("What do you want to do? ")
 
-		direction := getDirection(cmd)
-		fmt.Printf("Direction: %v\n", direction)
-
-		if direction == "quit" {
-			fmt.Println("Quitting game.")
-			break
-		} else if err == liner.ErrPromptAborted {
+		if err == liner.ErrPromptAborted {
 			fmt.Println("Aborted.")
 		}
 
-		g.Move(direction)
+		action, command := parseCommand(cmd)
+
+		if action == "quit" {
+			fmt.Println("Quitting game.")
+			break
+		}
+
+		g.CommandList[action].Action(command)
 		g.Describe()
+	}
+}
+
+func parseCommand(cmd string) (string, string) {
+	commands := strings.Split(cmd, " ")
+
+	switch commands[0] {
+	case "q", "quit":
+		return "quit", "quit"
+	case "go":
+		direction := getDirection(cmd)
+		return "go", direction
+	default:
+		fmt.Println("Do not understand")
+		return "", ""
 	}
 }
 
@@ -77,8 +102,6 @@ func getDirection(cmd string) string {
 		return "east"
 	} else if direction == "w" || strings.Contains(direction, "west") {
 		return "west"
-	} else if direction == "q" || strings.Contains(direction, "quit") {
-		return "quit"
 	} else {
 		return ""
 	}

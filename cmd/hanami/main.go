@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/game"
+	"github.com/shroudofthurin/GoLearningMT/game/command"
 	"github.com/shroudofthurin/GoLearningMT/item"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
@@ -132,6 +133,19 @@ func CreateLocations(items item.Items) location.Locations {
 	return locations
 }
 
+func CreateCommandList(game *game.Game) command.CommandList {
+	commands := command.CommandList{
+		"go": command.New(
+			"go",
+			"go <north|south|east|west>",
+			"long help",
+			game.Move,
+		),
+	}
+
+	return commands
+}
+
 func main() {
 	line := liner.NewLiner()
 	defer line.Close()
@@ -141,6 +155,9 @@ func main() {
 	items := CreateItems()
 	locations := CreateLocations(items)
 
-	game := &game.Game{line, locations["front yard"]}
+	game := game.New(line, locations["front yard"])
+	commands := CreateCommandList(game)
+	game.SetCommandList(commands)
+
 	game.Play()
 }
