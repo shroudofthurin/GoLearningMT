@@ -1,5 +1,7 @@
 package item
 
+import "fmt"
+
 type Item struct {
 	Name     string
 	Openable bool
@@ -19,3 +21,13 @@ func SetContains(items Items, names ...string) {
 }
 
 type Items map[string]*Item
+
+func (items Items) ListItems() {
+	if len(items) == 0 {
+		fmt.Println("{}")
+	} else {
+		for _, v := range items {
+			fmt.Printf("%s\n", v.Name)
+		}
+	}
+}

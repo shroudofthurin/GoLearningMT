@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/peterh/liner"
+	"github.com/shroudofthurin/GoLearningMT/item"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
 
@@ -12,10 +13,11 @@ type Game struct {
 	Line        *liner.State
 	Location    *location.Location
 	CommandList CommandList
+	Inventory   item.Items
 }
 
 func New(line *liner.State, location *location.Location) *Game {
-	game := Game{line, location, make(CommandList)}
+	game := Game{line, location, make(CommandList), make(item.Items)}
 	return &game
 }
 
@@ -27,6 +29,11 @@ func (g Game) Help(args ...string) {
 	fmt.Println("I will print out the list of possible commands here.")
 }
 
+func (g *Game) DescribeInventory(args ...string) {
+	fmt.Println("\nCurrent Inventory:")
+	g.Inventory.ListItems()
+}
+
 func (g *Game) Describe(args ...string) {
 	g.DescribeCurrentLocation()
 	g.DescribeExits()
@@ -34,22 +41,17 @@ func (g *Game) Describe(args ...string) {
 }
 
 func (g Game) DescribeCurrentLocation() {
-	fmt.Printf("You are in the %v.\n%v\n", g.Location.Name, g.Location.Description)
+	g.Location.Info()
 }
 
 func (g Game) DescribeExits() {
 	fmt.Println("\nExits:")
-	for k, v := range g.Location.Exits {
-		fmt.Printf("%s - %s\n", strings.Title(k), v.Name)
-	}
+	g.Location.ListExits()
 }
 
 func (g Game) DescribeItems() {
 	fmt.Println("\nItems:")
-	for _, v := range g.Location.Items {
-		fmt.Printf("%s\n", v.Name)
-	}
-	fmt.Println("\n")
+	g.Location.ListItems()
 }
 
 func (g *Game) Move(to ...string) {
@@ -99,6 +101,8 @@ func parseCommand(cmd string) (string, string) {
 		return "go", direction
 	case "describe":
 		return "describe", ""
+	case "inventory":
+		return "inventory", ""
 	default:
 		fmt.Println("Do not understand your command.")
 		return "describe", ""

@@ -1,6 +1,9 @@
 package location
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/shroudofthurin/GoLearningMT/item"
 )
 
@@ -20,6 +23,26 @@ func New(name, description string) *Location {
 	}
 
 	return &location
+}
+
+func (location Location) Info() {
+	fmt.Printf("\nYou are in the %v.\n%v\n", location.Name, location.Description)
+}
+
+func (location Location) ListExits() {
+	for k, v := range location.Exits {
+		fmt.Printf("%s - %s\n", strings.Title(k), v.Name)
+	}
+}
+
+func (location Location) ListItems() {
+	if len(location.Items) == 0 {
+		fmt.Println("{}")
+	} else {
+		for _, v := range location.Items {
+			fmt.Printf("%s\n", v.Name)
+		}
+	}
 }
 
 type Locations map[string]*Location

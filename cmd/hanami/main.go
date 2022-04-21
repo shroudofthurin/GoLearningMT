@@ -137,7 +137,7 @@ func CreateCommandList(g *game.Game) game.CommandList {
 		"go": game.NewCommand(
 			"go",
 			"go <north|south|east|west>",
-			"To move throughout the space, simely type go followed by the direction, e.g \"go north\".",
+			"To move throughout the space, simply type go followed by the direction, e.g \"go north\".",
 			g.Move,
 		),
 		"describe": game.NewCommand(
@@ -145,6 +145,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"describe",
 			"To examine your current location, type \"describe\". It will describe the current location, exits, and items",
 			g.Describe,
+		),
+		"inventory": game.NewCommand(
+			"inventory",
+			"inventory",
+			"To view your current inventory, type \"inventory\".",
+			g.DescribeInventory,
 		),
 		"help": game.NewCommand(
 			"help",
