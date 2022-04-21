@@ -146,6 +146,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To examine your current location, type \"describe\". It will describe the current location, exits, and items",
 			g.Describe,
 		),
+		"help": game.NewCommand(
+			"help",
+			"help <\"\"|command>",
+			"I will eventually help you naviate this game and the commands available",
+			g.Help,
+		),
 	}
 
 	return commands

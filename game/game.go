@@ -37,6 +37,10 @@ func (g *Game) SetCommandList(commands CommandList) {
 	g.CommandList = commands
 }
 
+func (g Game) Help(args ...string) {
+	fmt.Println("I will print out the list of possible commands here.")
+}
+
 func (g Game) Describe(args ...string) {
 
 	g.DescribeCurrentLocation()
@@ -94,13 +98,15 @@ func parseCommand(cmd string) (string, string) {
 	switch commands[0] {
 	case "q", "quit":
 		return "quit", "quit"
+	case "h", "help":
+		return "help", ""
 	case "go":
 		direction := getDirection(commands[1])
 		return "go", direction
 	case "describe":
 		return "describe", ""
 	default:
-		fmt.Println("Do not understand")
+		fmt.Println("Do not understand your command.")
 		return "describe", ""
 	}
 }
