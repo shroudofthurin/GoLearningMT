@@ -8,20 +8,6 @@ import (
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
 
-type Command struct {
-	Name     string
-	Help     string
-	LongHelp string
-	Action   func(args ...string)
-}
-
-func NewCommand(name, help, longhelp string, action func(args ...string)) *Command {
-	command := Command{name, help, longhelp, action}
-	return &command
-}
-
-type CommandList map[string]*Command
-
 type Game struct {
 	Line        *liner.State
 	Location    *location.Location
@@ -41,8 +27,7 @@ func (g Game) Help(args ...string) {
 	fmt.Println("I will print out the list of possible commands here.")
 }
 
-func (g Game) Describe(args ...string) {
-
+func (g *Game) Describe(args ...string) {
 	g.DescribeCurrentLocation()
 	g.DescribeExits()
 }
@@ -68,6 +53,7 @@ func (g *Game) Move(to ...string) {
 	}
 
 	g.Location = location
+	g.Describe()
 }
 
 func (g *Game) Play() {
@@ -101,7 +87,7 @@ func parseCommand(cmd string) (string, string) {
 	case "h", "help":
 		return "help", ""
 	case "go":
-		direction := getDirection(commands[1])
+		direction := getDirection(cmd)
 		return "go", direction
 	case "describe":
 		return "describe", ""
@@ -114,15 +100,29 @@ func parseCommand(cmd string) (string, string) {
 func getDirection(command string) string {
 	direction := strings.ToLower(command)
 
-	if direction == "n" || direction == "north" {
+	if direction == "n" || strings.Contains(direction, "north") {
 		return "north"
-	} else if direction == "s" || direction == "south" {
+	} else if direction == "s" || strings.Contains(direction, "south") {
 		return "south"
-	} else if direction == "e" || direction == "east" {
+	} else if direction == "e" || strings.Contains(direction, "east") {
 		return "east"
-	} else if direction == "w" || direction == "west" {
+	} else if direction == "w" || strings.Contains(direction, "west") {
 		return "west"
 	} else {
 		return ""
 	}
 }
+
+type Command struct {
+	Name     string
+	Help     string
+	LongHelp string
+	Action   func(args ...string)
+}
+
+func NewCommand(name, help, longhelp string, action func(args ...string)) *Command {
+	command := Command{name, help, longhelp, action}
+	return &command
+}
+
+type CommandList map[string]*Command
