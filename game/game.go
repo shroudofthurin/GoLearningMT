@@ -5,26 +5,40 @@ import (
 	"strings"
 
 	"github.com/peterh/liner"
-	"github.com/shroudofthurin/GoLearningMT/game/command"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
+
+type Command struct {
+	Name     string
+	Help     string
+	LongHelp string
+	Action   func(args ...string)
+}
+
+func NewCommand(name, help, longhelp string, action func(args ...string)) *Command {
+	command := Command{name, help, longhelp, action}
+	return &command
+}
+
+type CommandList map[string]*Command
 
 type Game struct {
 	Line        *liner.State
 	Location    *location.Location
-	CommandList command.CommandList
+	CommandList CommandList
 }
 
 func New(line *liner.State, location *location.Location) *Game {
-	game := Game{line, location, make(command.CommandList)}
+	game := Game{line, location, make(CommandList)}
 	return &game
 }
 
-func (g *Game) SetCommandList(commands command.CommandList) {
+func (g *Game) SetCommandList(commands CommandList) {
 	g.CommandList = commands
 }
 
-func (g Game) Describe() {
+func (g Game) Describe(args ...string) {
+
 	g.DescribeCurrentLocation()
 	g.DescribeExits()
 }
@@ -41,8 +55,8 @@ func (g Game) DescribeExits() {
 	fmt.Println("\n")
 }
 
-func (g *Game) Move(to string) {
-	location, ok := g.Location.Exits[to]
+func (g *Game) Move(to ...string) {
+	location, ok := g.Location.Exits[to[0]]
 
 	if !ok {
 		fmt.Println("\nYou can't go that direction!!\n")
@@ -53,7 +67,6 @@ func (g *Game) Move(to string) {
 }
 
 func (g *Game) Play() {
-
 	fmt.Println("Let's Hanami!\n")
 	g.Describe()
 
@@ -72,7 +85,6 @@ func (g *Game) Play() {
 		}
 
 		g.CommandList[action].Action(command)
-		g.Describe()
 	}
 }
 
@@ -83,24 +95,26 @@ func parseCommand(cmd string) (string, string) {
 	case "q", "quit":
 		return "quit", "quit"
 	case "go":
-		direction := getDirection(cmd)
+		direction := getDirection(commands[1])
 		return "go", direction
+	case "describe":
+		return "describe", ""
 	default:
 		fmt.Println("Do not understand")
-		return "", ""
+		return "describe", ""
 	}
 }
 
-func getDirection(cmd string) string {
-	direction := strings.ToLower(cmd)
+func getDirection(command string) string {
+	direction := strings.ToLower(command)
 
-	if direction == "n" || strings.Contains(direction, "north") {
+	if direction == "n" || direction == "north" {
 		return "north"
-	} else if direction == "s" || strings.Contains(direction, "south") {
+	} else if direction == "s" || direction == "south" {
 		return "south"
-	} else if direction == "e" || strings.Contains(direction, "east") {
+	} else if direction == "e" || direction == "east" {
 		return "east"
-	} else if direction == "w" || strings.Contains(direction, "west") {
+	} else if direction == "w" || direction == "west" {
 		return "west"
 	} else {
 		return ""

@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/game"
-	"github.com/shroudofthurin/GoLearningMT/game/command"
 	"github.com/shroudofthurin/GoLearningMT/item"
 	"github.com/shroudofthurin/GoLearningMT/location"
 )
@@ -133,13 +132,19 @@ func CreateLocations(items item.Items) location.Locations {
 	return locations
 }
 
-func CreateCommandList(game *game.Game) command.CommandList {
-	commands := command.CommandList{
-		"go": command.New(
+func CreateCommandList(g *game.Game) game.CommandList {
+	commands := game.CommandList{
+		"go": game.NewCommand(
 			"go",
 			"go <north|south|east|west>",
-			"long help",
-			game.Move,
+			"To move throughout the space, simely type go followed by the direction, e.g \"go north\".",
+			g.Move,
+		),
+		"describe": game.NewCommand(
+			"describe",
+			"describe",
+			"To examine your current location, type \"describe\". It will describe the current location, exits, and items",
+			g.Describe,
 		),
 	}
 
@@ -155,9 +160,9 @@ func main() {
 	items := CreateItems()
 	locations := CreateLocations(items)
 
-	game := game.New(line, locations["front yard"])
-	commands := CreateCommandList(game)
-	game.SetCommandList(commands)
+	hanamiGame := game.New(line, locations["front yard"])
+	commands := CreateCommandList(hanamiGame)
+	hanamiGame.SetCommandList(commands)
 
-	game.Play()
+	hanamiGame.Play()
 }
