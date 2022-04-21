@@ -30,6 +30,7 @@ func (g Game) Help(args ...string) {
 func (g *Game) Describe(args ...string) {
 	g.DescribeCurrentLocation()
 	g.DescribeExits()
+	g.DescribeItems()
 }
 
 func (g Game) DescribeCurrentLocation() {
@@ -40,6 +41,13 @@ func (g Game) DescribeExits() {
 	fmt.Println("\nExits:")
 	for k, v := range g.Location.Exits {
 		fmt.Printf("%s - %s\n", strings.Title(k), v.Name)
+	}
+}
+
+func (g Game) DescribeItems() {
+	fmt.Println("\nItems:")
+	for _, v := range g.Location.Items {
+		fmt.Printf("%s\n", v.Name)
 	}
 	fmt.Println("\n")
 }
