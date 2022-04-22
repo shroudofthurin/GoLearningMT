@@ -3,131 +3,129 @@ package main
 import (
 	"github.com/peterh/liner"
 	"github.com/shroudofthurin/GoLearningMT/game"
-	"github.com/shroudofthurin/GoLearningMT/item"
-	"github.com/shroudofthurin/GoLearningMT/location"
 )
 
-func CreateItems() item.Items {
-	items := item.Items{
-		"tote bag":      item.New("Tote Bag", true),
-		"invitation":    item.New("Invitation", false),
-		"blanket":       item.New("Blanket", false),
-		"cards":         item.New("Cards", false),
-		"strawberries":  item.New("Strawberries", false),
-		"ice":           item.New("Ice", false),
-		"cups":          item.New("Cups", false),
-		"checklist":     item.New("Hanami Party Checklist", false),
-		"wallet":        item.New("Wallet", false),
-		"cake":          item.New("Cake", false),
-		"refrigerator":  item.New("Refrigerator", true),
-		"tv":            item.New("Television", false),
-		"mailbox":       item.New("Mailbox", true),
-		"flower":        item.New("Flower", false),
-		"sakura":        item.New("Sakura Tree", false),
-		"cash register": item.New("Cash Register", false),
+func CreateItems() game.Items {
+	items := game.Items{
+		"tote bag":      game.NewItem("Tote Bag", true),
+		"invitation":    game.NewItem("Invitation", false),
+		"blanket":       game.NewItem("Blanket", false),
+		"cards":         game.NewItem("Cards", false),
+		"strawberries":  game.NewItem("Strawberries", false),
+		"ice":           game.NewItem("Ice", false),
+		"cups":          game.NewItem("Cups", false),
+		"checklist":     game.NewItem("Hanami Party Checklist", false),
+		"wallet":        game.NewItem("Wallet", false),
+		"cake":          game.NewItem("Cake", false),
+		"refrigerator":  game.NewItem("Refrigerator", true),
+		"tv":            game.NewItem("Television", false),
+		"mailbox":       game.NewItem("Mailbox", true),
+		"flower":        game.NewItem("Flower", false),
+		"sakura":        game.NewItem("Sakura Tree", false),
+		"cash register": game.NewItem("Cash Register", false),
 	}
 
-	item.SetContains(items, "mailbox", "invitation", "checklist")
-	item.SetContains(items, "refrigerator", "cake")
-	item.SetContains(items, "tote bag", "wallet")
+	game.SetContains(items, "mailbox", "invitation", "checklist")
+	game.SetContains(items, "refrigerator", "cake")
+	game.SetContains(items, "tote bag", "wallet")
 
 	return items
 }
 
-func CreateLocations(items item.Items) location.Locations {
-	locations := location.Locations{
-		"store": location.New(
+func CreateLocations(items game.Items) game.Locations {
+	locations := game.Locations{
+		"store": game.NewLocation(
 			"Store",
 			"A place where you can buy ice.",
 		),
-		"street": location.New(
+		"street": game.NewLocation(
 			"Street",
 			"At one end is a store and the other your porch.",
 		),
-		"front yard": location.New(
+		"front yard": game.NewLocation(
 			"Front Yard",
 			"It's where you have your mailbox.",
 		),
-		"porch": location.New(
+		"porch": game.NewLocation(
 			"Porch",
 			"You can see the your front yard from here.",
 		),
-		"flower garden": location.New(
+		"flower garden": game.NewLocation(
 			"Flower Garden",
 			"Your flower are in full bloom.",
 		),
-		"entryway": location.New(
+		"entryway": game.NewLocation(
 			"Entryway",
 			"A place to put your bags, keys, and shoes.",
 		),
-		"kitchen": location.New(
+		"kitchen": game.NewLocation(
 			"Kitchen",
 			"A place where meals are made and enjoyed.",
 		),
-		"hallway": location.New(
+		"hallway": game.NewLocation(
 			"Hallway",
 			"A place that connects you to other rooms.",
 		),
-		"living room": location.New(
+		"living room": game.NewLocation(
 			"Living Room",
 			"A place to relax and watch TV.",
 		),
-		"bedroom": location.New(
+		"bedroom": game.NewLocation(
 			"Bedroom",
 			"A place where you sleep and study.",
 		),
-		"closet": location.New(
+		"closet": game.NewLocation(
 			"Closet",
 			"A place jackets, blankets, and games are stored.",
 		),
-		"engawa": location.New(
+		"engawa": game.NewLocation(
 			"Engawa",
 			"A place where you can sit and relax, or follow the gravel path.",
 		),
-		"gravel path": location.New(
+		"gravel path": game.NewLocation(
 			"Gravel Path",
 			"A gravel path that leads you to your garden.",
 		),
-		"garden": location.New(
+		"garden": game.NewLocation(
 			"Garden",
 			"There is fruit and vegetables a plenty. The strawberries are ready to be picked.",
 		),
-		"park": location.New(
+		"park": game.NewLocation(
 			"Park",
 			"This lush green park is perfect for celebrating hanami.",
 		),
-		"cherry blossoms": location.New(
+		"cherry blossoms": game.NewLocation(
 			"Cherry Blossoms",
 			"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
 		),
 	}
-	location.SetExits(locations, "store", "east", "street")
-	location.SetExits(locations, "street", "north", "front yard", "south", "park", "west", "store")
-	location.SetExits(locations, "park", "north", "street", "south", "cherry blossoms")
-	location.SetExits(locations, "cherry blossoms", "north", "park")
-	location.SetExits(locations, "front yard", "north", "porch", "south", "street", "west", "flower garden")
-	location.SetExits(locations, "flower garden", "east", "front yard")
-	location.SetExits(locations, "porch", "north", "entryway", "south", "front yard")
-	location.SetExits(locations, "entryway", "north", "hallway", "south", "porch", "east", "kitchen")
-	location.SetExits(locations, "kitchen", "west", "entryway")
-	location.SetExits(locations, "hallway", "north", "engawa", "south", "entryway", "east", "living room", "west", "bedroom")
-	location.SetExits(locations, "living room", "west", "hallway")
-	location.SetExits(locations, "bedroom", "south", "closet", "east", "hallway")
-	location.SetExits(locations, "closet", "north", "bedroom")
-	location.SetExits(locations, "engawa", "north", "gravel path", "south", "hallway")
-	location.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
-	location.SetExits(locations, "garden", "south", "gravel path")
+	game.SetExits(locations, "store", "east", "street")
+	game.SetExits(locations, "street", "north", "front yard", "south", "park", "west", "store")
+	game.SetExits(locations, "park", "north", "street", "south", "cherry blossoms")
+	game.SetExits(locations, "cherry blossoms", "north", "park")
+	game.SetExits(locations, "front yard", "north", "porch", "south", "street", "west", "flower garden")
+	game.SetExits(locations, "flower garden", "east", "front yard")
+	game.SetExits(locations, "porch", "north", "entryway", "south", "front yard")
+	game.SetExits(locations, "entryway", "north", "hallway", "south", "porch", "east", "kitchen")
+	game.SetExits(locations, "kitchen", "west", "entryway")
+	game.SetExits(locations, "hallway", "north", "engawa", "south", "entryway", "east", "living room", "west", "bedroom")
+	game.SetExits(locations, "living room", "west", "hallway")
+	game.SetExits(locations, "bedroom", "south", "closet", "east", "hallway")
+	game.SetExits(locations, "closet", "north", "bedroom")
+	game.SetExits(locations, "engawa", "north", "gravel path", "south", "hallway")
+	game.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
+	game.SetExits(locations, "garden", "south", "gravel path")
 
-	location.SetItems(locations, items, "store", "ice", "cups", "cash register")
-	location.SetItems(locations, items, "garden", "strawberries")
-	location.SetItems(locations, items, "flower garden", "flower")
-	location.SetItems(locations, items, "entryway", "tote bag")
-	location.SetItems(locations, items, "living room", "tv")
-	location.SetItems(locations, items, "kitchen", "refrigerator")
-	location.SetItems(locations, items, "bedroom", "blanket")
-	location.SetItems(locations, items, "closet", "cards")
-	location.SetItems(locations, items, "cherry blossoms", "sakura")
-	location.SetItems(locations, items, "front yard", "mailbox")
+	game.SetItems(locations, items, "store", "ice", "cups", "cash register")
+	game.SetItems(locations, items, "garden", "strawberries")
+	game.SetItems(locations, items, "flower garden", "flower")
+	game.SetItems(locations, items, "entryway", "tote bag")
+	game.SetItems(locations, items, "living room", "tv")
+	game.SetItems(locations, items, "kitchen", "refrigerator")
+	game.SetItems(locations, items, "bedroom", "blanket")
+	game.SetItems(locations, items, "closet", "cards")
+	game.SetItems(locations, items, "cherry blossoms", "sakura")
+	game.SetItems(locations, items, "front yard", "mailbox")
 
 	return locations
 }

@@ -1,4 +1,4 @@
-package item
+package game
 
 import "fmt"
 
@@ -8,7 +8,7 @@ type Item struct {
 	Contains Items
 }
 
-func New(name string, openable bool) *Item {
+func NewItem(name string, openable bool) *Item {
 	item := Item{name, openable, make(Items)}
 
 	return &item

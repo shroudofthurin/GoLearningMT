@@ -5,19 +5,17 @@ import (
 	"strings"
 
 	"github.com/peterh/liner"
-	"github.com/shroudofthurin/GoLearningMT/item"
-	"github.com/shroudofthurin/GoLearningMT/location"
 )
 
 type Game struct {
 	Line        *liner.State
-	Location    *location.Location
+	Location    *Location
 	CommandList CommandList
-	Inventory   item.Items
+	Inventory   Items
 }
 
-func New(line *liner.State, location *location.Location) *Game {
-	game := Game{line, location, make(CommandList), make(item.Items)}
+func New(line *liner.State, location *Location) *Game {
+	game := Game{line, location, make(CommandList), make(Items)}
 	return &game
 }
 
@@ -25,8 +23,9 @@ func (g *Game) SetCommandList(commands CommandList) {
 	g.CommandList = commands
 }
 
-func (g Game) Help(args ...string) {
-	fmt.Println("I will print out the list of possible commands here.")
+func (g *Game) Help(args ...string) {
+	fmt.Println("You are playing a text adventure game.")
+	fmt.Println("You control your character by entering commands")
 }
 
 func (g *Game) DescribeInventory(args ...string) {
@@ -40,16 +39,16 @@ func (g *Game) Describe(args ...string) {
 	g.DescribeItems()
 }
 
-func (g Game) DescribeCurrentLocation() {
+func (g *Game) DescribeCurrentLocation() {
 	g.Location.Info()
 }
 
-func (g Game) DescribeExits() {
+func (g *Game) DescribeExits() {
 	fmt.Println("\nExits:")
 	g.Location.ListExits()
 }
 
-func (g Game) DescribeItems() {
+func (g *Game) DescribeItems() {
 	fmt.Println("\nItems:")
 	g.Location.ListItems()
 }
