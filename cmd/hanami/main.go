@@ -77,9 +77,9 @@ func CreateItems() game.Items {
 			"A beautiful plot of fully bloomed tulips.",
 			false,
 		),
-		"sakura": game.NewItem(
-			"Sakura Tree",
-			"A bunch of fully bloomed sakura trees, with beautiful pink and white flowers.",
+		"cherry blossoms": game.NewItem(
+			"Cherry Blossoms",
+			"A bunch of fully bloomed cheery blossom trees, with beautiful pink and white flowers.",
 			false,
 		),
 		"cash register": game.NewItem(
@@ -188,7 +188,7 @@ func CreateLocations(items game.Items) game.Locations {
 	game.SetLocationInventory(locations, items, "kitchen", "refrigerator")
 	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket")
 	game.SetLocationInventory(locations, items, "closet", "cards")
-	game.SetLocationInventory(locations, items, "cherry blossoms", "sakura")
+	game.SetLocationInventory(locations, items, "cherry blossoms", "cherry blossoms")
 	game.SetLocationInventory(locations, items, "front yard", "mailbox")
 
 	return locations
@@ -205,8 +205,14 @@ func CreateCommandList(g *game.Game) game.CommandList {
 		"look": game.NewCommand(
 			"look",
 			"look",
-			"To examine your current location, type \"look\". It will describe the current location, exits, and items",
+			"To examine your current location, type \"look\". It will describe the current location, exits, and items.",
 			g.Describe,
+		),
+		"look at": game.NewCommand(
+			"look at",
+			"look at <item>",
+			"To exame an item further, type look at followed by the name of the item, e.g. \"look at cherry blossoms\".",
+			g.LookAt,
 		),
 		"inventory": game.NewCommand(
 			"inventory",

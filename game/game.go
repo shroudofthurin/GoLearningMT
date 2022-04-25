@@ -54,6 +54,16 @@ func (g *Game) DescribeItems() {
 	g.Location.ListInventory()
 }
 
+func (g *Game) LookAt(args ...string) {
+	item, ok := g.Location.Inventory[args[0]]
+
+	if !ok {
+		fmt.Println("\nThat item is not available in this location.\n")
+		return
+	}
+	item.Info()
+}
+
 func (g *Game) Move(to ...string) {
 	location, ok := g.Location.Exits[to[0]]
 
@@ -100,6 +110,10 @@ func parseCommand(cmd string) (string, string) {
 		direction := getDirection(commands[1])
 		return "go", direction
 	case "look":
+		if commands[1] == "at" {
+			item := getItem(commands[2:])
+			return "look at", item
+		}
 		return "look", ""
 	case "inventory":
 		return "inventory", ""
@@ -123,6 +137,12 @@ func getDirection(command string) string {
 	} else {
 		return ""
 	}
+}
+
+func getItem(command []string) string {
+	item := strings.ToLower(strings.Join(command, " "))
+	fmt.Println("item -> ", item)
+	return item
 }
 
 type Command struct {
