@@ -57,7 +57,7 @@ func (g *Game) LookAt(args ...string) {
 	item, ok := g.Location.Inventory[args[0]]
 
 	if !ok {
-		fmt.Println("\nThat item is not available in this location.\n")
+		printItemError()
 		return
 	}
 	item.Info()
@@ -67,7 +67,7 @@ func (g *Game) Open(args ...string) {
 	item, ok := g.Location.Inventory[args[0]]
 
 	if !ok {
-		fmt.Println("\nThat item is not available in this location.\n")
+		printItemError()
 		return
 	}
 
@@ -78,11 +78,29 @@ func (g *Game) Close(args ...string) {
 	item, ok := g.Location.Inventory[args[0]]
 
 	if !ok {
-		fmt.Println("\nThat item is not available in this location.\n")
+		printItemError()
 		return
 	}
 
 	item.Close()
+}
+
+func (g *Game) Take(args ...string) {
+	_, ok := g.Location.Inventory[args[0]]
+
+	if !ok {
+		printItemError()
+		return
+	}
+
+	item, ok := g.Location.Take(args[0])
+
+	if !ok {
+		fmt.Println("\nIt seems that this item cannot be taken.\n")
+		return
+	}
+
+	g.Inventory[args[0]] = item
 }
 
 func (g *Game) Move(to ...string) {
@@ -131,11 +149,11 @@ func parseCommand(cmd string) (string, string) {
 		direction := getDirection(commands[1])
 		return "go", direction
 	case "look":
-		if commands[1] == "at" {
-			item := getItem(commands[2:])
-			return "look at", item
+		if len(commands) == 1 {
+			return "look", ""
 		}
-		return "look", ""
+		item := getItem(commands[2:])
+		return "look at", item
 	case "inventory":
 		return "inventory", ""
 	case "open":
@@ -144,6 +162,9 @@ func parseCommand(cmd string) (string, string) {
 	case "close":
 		item := getItem(commands[1:])
 		return "close", item
+	case "take":
+		item := getItem(commands[1:])
+		return "take", item
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""
@@ -169,4 +190,8 @@ func getDirection(command string) string {
 func getItem(command []string) string {
 	item := strings.ToLower(strings.Join(command, " "))
 	return item
+}
+
+func printItemError() {
+	fmt.Println("\nThat item is not available in this location.\n")
 }

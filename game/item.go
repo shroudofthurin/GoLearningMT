@@ -33,11 +33,11 @@ func (item *Item) Info() {
 	if item.Openable {
 		if item.Opened {
 			fmt.Printf("The %v is opened.\n", item.Name)
+			fmt.Println("\nContains:")
+			item.ListInventory()
 		} else {
 			fmt.Printf("The %v is closed.\n", item.Name)
 		}
-		fmt.Println("\nContains:")
-		item.ListInventory()
 	}
 }
 

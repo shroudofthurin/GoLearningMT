@@ -227,7 +227,7 @@ func CreateCommandList(g *game.Game) game.CommandList {
 		"look at": game.NewCommand(
 			"look at",
 			"look at <item>",
-			"To exame an item further, type look at followed by the name of the item, e.g. \"look at cherry blossoms\".",
+			"To exame an item further, type look at followed by the name of the item, e.g. \"look at flowers\".",
 			g.LookAt,
 		),
 		"inventory": game.NewCommand(
@@ -247,6 +247,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"close <item>",
 			"To close an item, type close, followed by the name of the item, e.g. \"close mailbox\".",
 			g.Close,
+		),
+		"take": game.NewCommand(
+			"take",
+			"take <item>",
+			"To take an item from a location, type take followed by the name of the item, e.g. \ntake cake\n.",
+			g.Take,
 		),
 		"help": game.NewCommand(
 			"help",
