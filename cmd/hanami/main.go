@@ -7,27 +7,91 @@ import (
 
 func CreateItems() game.Items {
 	items := game.Items{
-		"tote bag":      game.NewItem("Tote Bag", true),
-		"invitation":    game.NewItem("Invitation", false),
-		"blanket":       game.NewItem("Blanket", false),
-		"cards":         game.NewItem("Cards", false),
-		"strawberries":  game.NewItem("Strawberries", false),
-		"ice":           game.NewItem("Ice", false),
-		"cups":          game.NewItem("Cups", false),
-		"checklist":     game.NewItem("Hanami Party Checklist", false),
-		"wallet":        game.NewItem("Wallet", false),
-		"cake":          game.NewItem("Cake", false),
-		"refrigerator":  game.NewItem("Refrigerator", true),
-		"tv":            game.NewItem("Television", false),
-		"mailbox":       game.NewItem("Mailbox", true),
-		"flower":        game.NewItem("Flower", false),
-		"sakura":        game.NewItem("Sakura Tree", false),
-		"cash register": game.NewItem("Cash Register", false),
+		"tote bag": game.NewItem(
+			"Tote Bag",
+			"A large bag suitable for carring lots of things.",
+			true,
+		),
+		"invitation": game.NewItem(
+			"Invitation",
+			"A written request inviting you to go somewhere.",
+			false,
+		),
+		"picnic blanket": game.NewItem(
+			"Picnic Blanket",
+			"A soft blanket that is perfect for enjoying outdoor activities.",
+			false,
+		),
+		"cards": game.NewItem(
+			"Cards",
+			"A standard deck of cards.",
+			false,
+		),
+		"strawberries": game.NewItem(
+			"Strawberries",
+			"Small red fruits, which are soft and juicy and ready to be eaten.",
+			false,
+		),
+		"ice": game.NewItem(
+			"Ice",
+			"A large, portable bag of ice.",
+			false,
+		),
+		"cups": game.NewItem(
+			"Cups",
+			"20 plastic, single use, disposable cups.",
+			false,
+		),
+		"checklist": game.NewItem(
+			"Hanami Party Checklist",
+			"A list of items required for the Hanami Party",
+			false,
+		),
+		"wallet": game.NewItem(
+			"Wallet",
+			"A pocket-sized flat poketbook for holding money and credit cards.",
+			false,
+		),
+		"cake": game.NewItem(
+			"Cake",
+			"A dense, velvety pound cake.",
+			false,
+		),
+		"refrigerator": game.NewItem(
+			"Refrigerator",
+			"A valuable household appliance, that keeps food and drinks cool.",
+			true,
+		),
+		"tv": game.NewItem(
+			"Television",
+			"A simple LCD TV mounted on the wall.",
+			false,
+		),
+		"mailbox": game.NewItem(
+			"Mailbox",
+			"A letterbox used for receiving incoming mail.",
+			true,
+		),
+		"flower": game.NewItem(
+			"Flower",
+			"A beautiful plot of fully bloomed tulips.",
+			false,
+		),
+		"sakura": game.NewItem(
+			"Sakura Tree",
+			"A bunch of fully bloomed sakura trees, with beautiful pink and white flowers.",
+			false,
+		),
+		"cash register": game.NewItem(
+			"Cash Register",
+			"A drawer for money and totals, displays, and records the amount of each sale.",
+			false,
+		),
 	}
 
-	game.SetContains(items, "mailbox", "invitation", "checklist")
-	game.SetContains(items, "refrigerator", "cake")
-	game.SetContains(items, "tote bag", "wallet")
+	game.SetItemInventory(items, "mailbox", "invitation", "checklist")
+	game.SetItemInventory(items, "refrigerator", "cake")
+	game.SetItemInventory(items, "tote bag", "wallet")
 
 	return items
 }
@@ -116,16 +180,16 @@ func CreateLocations(items game.Items) game.Locations {
 	game.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
 	game.SetExits(locations, "garden", "south", "gravel path")
 
-	game.SetItems(locations, items, "store", "ice", "cups", "cash register")
-	game.SetItems(locations, items, "garden", "strawberries")
-	game.SetItems(locations, items, "flower garden", "flower")
-	game.SetItems(locations, items, "entryway", "tote bag")
-	game.SetItems(locations, items, "living room", "tv")
-	game.SetItems(locations, items, "kitchen", "refrigerator")
-	game.SetItems(locations, items, "bedroom", "blanket")
-	game.SetItems(locations, items, "closet", "cards")
-	game.SetItems(locations, items, "cherry blossoms", "sakura")
-	game.SetItems(locations, items, "front yard", "mailbox")
+	game.SetLocationInventory(locations, items, "store", "ice", "cups", "cash register")
+	game.SetLocationInventory(locations, items, "garden", "strawberries")
+	game.SetLocationInventory(locations, items, "flower garden", "flower")
+	game.SetLocationInventory(locations, items, "entryway", "tote bag")
+	game.SetLocationInventory(locations, items, "living room", "tv")
+	game.SetLocationInventory(locations, items, "kitchen", "refrigerator")
+	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket")
+	game.SetLocationInventory(locations, items, "closet", "cards")
+	game.SetLocationInventory(locations, items, "cherry blossoms", "sakura")
+	game.SetLocationInventory(locations, items, "front yard", "mailbox")
 
 	return locations
 }
@@ -138,10 +202,10 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To move throughout the space, simply type go followed by the direction, e.g \"go north\".",
 			g.Move,
 		),
-		"describe": game.NewCommand(
-			"describe",
-			"describe",
-			"To examine your current location, type \"describe\". It will describe the current location, exits, and items",
+		"look": game.NewCommand(
+			"look",
+			"look",
+			"To examine your current location, type \"look\". It will describe the current location, exits, and items",
 			g.Describe,
 		),
 		"inventory": game.NewCommand(

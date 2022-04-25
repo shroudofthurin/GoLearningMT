@@ -40,6 +40,7 @@ func (g *Game) Describe(args ...string) {
 }
 
 func (g *Game) DescribeCurrentLocation() {
+	fmt.Println("\nYou are in the :")
 	g.Location.Info()
 }
 
@@ -50,7 +51,7 @@ func (g *Game) DescribeExits() {
 
 func (g *Game) DescribeItems() {
 	fmt.Println("\nItems:")
-	g.Location.ListItems()
+	g.Location.ListInventory()
 }
 
 func (g *Game) Move(to ...string) {
@@ -96,15 +97,15 @@ func parseCommand(cmd string) (string, string) {
 	case "h", "help":
 		return "help", ""
 	case "go":
-		direction := getDirection(cmd)
+		direction := getDirection(commands[1])
 		return "go", direction
-	case "describe":
-		return "describe", ""
+	case "look":
+		return "look", ""
 	case "inventory":
 		return "inventory", ""
 	default:
 		fmt.Println("Do not understand your command.")
-		return "describe", ""
+		return "look", ""
 	}
 }
 
