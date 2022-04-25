@@ -5,6 +5,8 @@ import "fmt"
 type Item struct {
 	Common
 	Openable bool
+	Opened   bool
+	Takeable bool
 }
 
 func (item *Item) Open() {
@@ -12,12 +14,40 @@ func (item *Item) Open() {
 		fmt.Println("\nIt seems that this item cannot be opened.\n")
 		return
 	}
-	fmt.Println("Container Items: ")
-	item.ListInventory()
+
+	item.Opened = true
 }
 
-func NewItem(name, description string, openable bool) *Item {
-	item := Item{Common{name, description, 0, make(Items)}, openable}
+func (item *Item) Close() {
+	if !item.Openable {
+		fmt.Println("\nIt seems that this item cannot be closed.\n")
+		return
+	}
+
+	item.Opened = false
+}
+
+func (item *Item) Info() {
+	fmt.Printf("\nThe %v - %v\n", item.Name, item.Description)
+
+	if item.Openable {
+		if item.Opened {
+			fmt.Printf("The %v is opened.\n", item.Name)
+		} else {
+			fmt.Printf("The %v is closed.\n", item.Name)
+		}
+		fmt.Println("\nContains:")
+		item.ListInventory()
+	}
+}
+
+func NewItem(name, description string, openable, takeable bool) *Item {
+	item := Item{
+		Common{name, description, 0, make(Items)},
+		openable,
+		false,
+		takeable,
+	}
 
 	return &item
 }

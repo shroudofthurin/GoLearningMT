@@ -40,7 +40,6 @@ func (g *Game) Describe(args ...string) {
 }
 
 func (g *Game) DescribeCurrentLocation() {
-	fmt.Println("\nYou are in the :")
 	g.Location.Info()
 }
 
@@ -73,6 +72,17 @@ func (g *Game) Open(args ...string) {
 	}
 
 	item.Open()
+}
+
+func (g *Game) Close(args ...string) {
+	item, ok := g.Location.Inventory[args[0]]
+
+	if !ok {
+		fmt.Println("\nThat item is not available in this location.\n")
+		return
+	}
+
+	item.Close()
 }
 
 func (g *Game) Move(to ...string) {
@@ -131,6 +141,9 @@ func parseCommand(cmd string) (string, string) {
 	case "open":
 		item := getItem(commands[1:])
 		return "open", item
+	case "close":
+		item := getItem(commands[1:])
+		return "close", item
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""
@@ -155,20 +168,5 @@ func getDirection(command string) string {
 
 func getItem(command []string) string {
 	item := strings.ToLower(strings.Join(command, " "))
-	fmt.Println("item -> ", item)
 	return item
 }
-
-type Command struct {
-	Name     string
-	Help     string
-	LongHelp string
-	Action   func(args ...string)
-}
-
-func NewCommand(name, help, longhelp string, action func(args ...string)) *Command {
-	command := Command{name, help, longhelp, action}
-	return &command
-}
-
-type CommandList map[string]*Command

@@ -20,5 +20,6 @@ func (common Common) ListInventory() {
 		for _, v := range common.Inventory {
 			fmt.Printf("%s\n", v.Name)
 		}
+		fmt.Println("\n")
 	}
 }
