@@ -64,6 +64,17 @@ func (g *Game) LookAt(args ...string) {
 	item.Info()
 }
 
+func (g *Game) Open(args ...string) {
+	item, ok := g.Location.Inventory[args[0]]
+
+	if !ok {
+		fmt.Println("\nThat item is not available in this location.\n")
+		return
+	}
+
+	item.Open()
+}
+
 func (g *Game) Move(to ...string) {
 	location, ok := g.Location.Exits[to[0]]
 
@@ -117,6 +128,9 @@ func parseCommand(cmd string) (string, string) {
 		return "look", ""
 	case "inventory":
 		return "inventory", ""
+	case "open":
+		item := getItem(commands[1:])
+		return "open", item
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""

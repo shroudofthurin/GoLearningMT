@@ -220,6 +220,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To view your current inventory, type \"inventory\".",
 			g.DescribeInventory,
 		),
+		"open": game.NewCommand(
+			"open",
+			"open <item>",
+			"To open an item, type open followed by the name of the item, e.g. \"open mailbox\".",
+			g.Open,
+		),
 		"help": game.NewCommand(
 			"help",
 			"help <\"\"|command>",

@@ -7,6 +7,15 @@ type Item struct {
 	Openable bool
 }
 
+func (item *Item) Open() {
+	if !item.Openable {
+		fmt.Println("\nIt seems that this item cannot be opened.\n")
+		return
+	}
+	fmt.Println("Container Items: ")
+	item.ListInventory()
+}
+
 func NewItem(name, description string, openable bool) *Item {
 	item := Item{Common{name, description, 0, make(Items)}, openable}
 
