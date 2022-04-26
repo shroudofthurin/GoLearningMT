@@ -44,6 +44,12 @@ func (item Item) Contents() {
 		fmt.Printf("\nThe %v cannot be opened.\n", item.Name)
 		return
 	}
+
+	if !item.Opened {
+		fmt.Println("\nYou need open the item to look inside.")
+		return
+	}
+
 	fmt.Println("\nContains:")
 	item.ListInventory()
 }
