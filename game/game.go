@@ -63,32 +63,42 @@ func (g *Game) DescribeItems() {
 	g.Location.ListInventory()
 }
 
-func (g *Game) LookAt(args ...string) {
-	if item, ok := g.Location.Inventory[args[0]]; ok {
-		item.Info()
-		return
+func (g *Game) getItem(name string) (*Item, bool) {
+	item, ok := g.Location.Inventory[name]
+
+	if ok {
+		return item, ok
 	}
 
-	if item, ok := g.Inventory[args[0]]; ok {
-		item.Info()
-		return
-	}
+	item, ok = g.Inventory[name]
 
-	printItemError()
+	return item, ok
 }
 
-func (g *Game) LookIn(args ...string) {
-	item, ok := g.Location.Inventory[args[0]]
+func (g *Game) LookAt(args ...string) {
+	item, ok := g.getItem(args[0])
 
 	if !ok {
 		printItemError()
 		return
 	}
+
+	item.Info()
+}
+
+func (g *Game) LookIn(args ...string) {
+	item, ok := g.getItem(args[0])
+
+	if !ok {
+		printItemError()
+		return
+	}
+
 	item.Contents()
 }
 
 func (g *Game) Open(args ...string) {
-	item, ok := g.Location.Inventory[args[0]]
+	item, ok := g.getItem(args[0])
 
 	if !ok {
 		printItemError()
@@ -99,7 +109,7 @@ func (g *Game) Open(args ...string) {
 }
 
 func (g *Game) Close(args ...string) {
-	item, ok := g.Location.Inventory[args[0]]
+	item, ok := g.getItem(args[0])
 
 	if !ok {
 		printItemError()
