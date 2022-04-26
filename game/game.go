@@ -160,24 +160,24 @@ func parseCommand(cmd string) (string, string) {
 		}
 		return "help", command
 	case "go":
-		direction := getDirection(commands[1])
+		direction := parseDirection(commands[1])
 		return "go", direction
 	case "look":
 		if len(commands) == 1 {
 			return "look", ""
 		}
-		item := getItem(commands[2:])
+		item := parseItem(commands[2:])
 		return "look at", item
 	case "inventory":
 		return "inventory", ""
 	case "open":
-		item := getItem(commands[1:])
+		item := parseItem(commands[1:])
 		return "open", item
 	case "close":
-		item := getItem(commands[1:])
+		item := parseItem(commands[1:])
 		return "close", item
 	case "take":
-		item := getItem(commands[1:])
+		item := parseItem(commands[1:])
 		return "take", item
 	default:
 		fmt.Println("Do not understand your command.")
@@ -185,7 +185,7 @@ func parseCommand(cmd string) (string, string) {
 	}
 }
 
-func getDirection(command string) string {
+func parseDirection(command string) string {
 	if command == "n" || strings.Contains(command, "north") {
 		return "north"
 	} else if command == "s" || strings.Contains(command, "south") {
@@ -199,7 +199,7 @@ func getDirection(command string) string {
 	}
 }
 
-func getItem(command []string) string {
+func parseItem(command []string) string {
 	item := strings.Join(command, " ")
 	return item
 }
