@@ -73,6 +73,16 @@ func (g *Game) LookAt(args ...string) {
 	item.Info()
 }
 
+func (g *Game) LookIn(args ...string) {
+	item, ok := g.Location.Inventory[args[0]]
+
+	if !ok {
+		printItemError()
+		return
+	}
+	item.Contents()
+}
+
 func (g *Game) Open(args ...string) {
 	item, ok := g.Location.Inventory[args[0]]
 
@@ -166,8 +176,14 @@ func parseCommand(cmd string) (string, string) {
 		if len(commands) == 1 {
 			return "look", ""
 		}
+
 		item := parseItem(commands[2:])
-		return "look at", item
+		command := strings.Join(commands[:2], " ")
+
+		if command == "look at" {
+			return "look at", item
+		}
+		return "look in", item
 	case "inventory":
 		return "inventory", ""
 	case "open":

@@ -73,7 +73,7 @@ func CreateItems() game.Items {
 			true,
 			false,
 		),
-		"tv": game.NewItem(
+		"television": game.NewItem(
 			"Television",
 			"A simple LCD TV mounted on the wall.",
 			false,
@@ -200,7 +200,7 @@ func CreateLocations(items game.Items) game.Locations {
 	game.SetLocationInventory(locations, items, "garden", "strawberries")
 	game.SetLocationInventory(locations, items, "flower garden", "flower")
 	game.SetLocationInventory(locations, items, "entryway", "tote bag")
-	game.SetLocationInventory(locations, items, "living room", "tv")
+	game.SetLocationInventory(locations, items, "living room", "television")
 	game.SetLocationInventory(locations, items, "kitchen", "refrigerator")
 	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket")
 	game.SetLocationInventory(locations, items, "closet", "cards")
@@ -229,6 +229,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"look at <item>: look at a specific item.",
 			"To exame an item further, type look at followed by the name of the item, e.g. \"look at flowers\".",
 			g.LookAt,
+		),
+		"look in": game.NewCommand(
+			"Look In",
+			"look in <item>: look inside a specific item.",
+			"To exame what is inside an item, type look in followed by the name of the item, e.g. \"look in mailbox\".",
+			g.LookIn,
 		),
 		"inventory": game.NewCommand(
 			"Inventory",

@@ -41,6 +41,15 @@ func (item *Item) Info() {
 	}
 }
 
+func (item Item) Contents() {
+	if !item.Openable {
+		fmt.Printf("\nThe %v cannot be opened.\n", item.Name)
+		return
+	}
+	fmt.Println("\nContains:")
+	item.ListInventory()
+}
+
 func NewItem(name, description string, openable, takeable bool) *Item {
 	item := Item{
 		Common{name, description, 0, make(Items)},
