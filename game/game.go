@@ -124,6 +124,7 @@ func (g *Game) Close(args ...string) {
 }
 
 func (g *Game) Take(args ...string) {
+	fmt.Println("Trying to take item", args[0])
 	_, ok := g.Location.Inventory[args[0]]
 
 	if !ok {
@@ -276,7 +277,7 @@ func parseTake(commands []string) (string, string) {
 		return "take from", command
 	}
 
-	item := parseItem(commands[1:])
+	item := parseItem(commands)
 	return "take", item
 }
 
