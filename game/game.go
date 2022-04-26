@@ -64,13 +64,17 @@ func (g *Game) DescribeItems() {
 }
 
 func (g *Game) LookAt(args ...string) {
-	item, ok := g.Location.Inventory[args[0]]
-
-	if !ok {
-		printItemError()
+	if item, ok := g.Location.Inventory[args[0]]; ok {
+		item.Info()
 		return
 	}
-	item.Info()
+
+	if item, ok := g.Inventory[args[0]]; ok {
+		item.Info()
+		return
+	}
+
+	printItemError()
 }
 
 func (g *Game) LookIn(args ...string) {
@@ -221,5 +225,5 @@ func parseItem(command []string) string {
 }
 
 func printItemError() {
-	fmt.Println("\nThat item is not available in this location.\n")
+	fmt.Println("\nThat item is not available.\n")
 }
