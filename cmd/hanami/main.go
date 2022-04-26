@@ -67,8 +67,8 @@ func CreateItems() game.Items {
 			false,
 			true,
 		),
-		"refrigerator": game.NewItem(
-			"Refrigerator",
+		"fridge": game.NewItem(
+			"Fridge",
 			"A valuable household appliance, that keeps food and drinks cool.",
 			true,
 			false,
@@ -106,7 +106,7 @@ func CreateItems() game.Items {
 	}
 
 	game.SetItemInventory(items, "mailbox", "invitation", "checklist")
-	game.SetItemInventory(items, "refrigerator", "cake")
+	game.SetItemInventory(items, "fridge", "cake")
 	game.SetItemInventory(items, "tote bag", "wallet")
 
 	return items
@@ -201,7 +201,7 @@ func CreateLocations(items game.Items) game.Locations {
 	game.SetLocationInventory(locations, items, "flower garden", "flower")
 	game.SetLocationInventory(locations, items, "entryway", "tote bag")
 	game.SetLocationInventory(locations, items, "living room", "television")
-	game.SetLocationInventory(locations, items, "kitchen", "refrigerator")
+	game.SetLocationInventory(locations, items, "kitchen", "fridge")
 	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket")
 	game.SetLocationInventory(locations, items, "closet", "cards")
 	game.SetLocationInventory(locations, items, "cherry blossoms", "cherry blossoms")
@@ -259,6 +259,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"take <item>: add an item to your inventory.",
 			"To take an item from a location, type take followed by the name of the item, e.g. \"take cake\".",
 			g.Take,
+		),
+		"take from": game.NewCommand(
+			"Take From",
+			"take <item> from <item>: take an item from another item and add it to your inventory.",
+			"To take an item from another item, type take followed by the name of the item from container item, e.g. \"take cake from fridge\".",
+			g.TakeFrom,
 		),
 		"help": game.NewCommand(
 			"Help",

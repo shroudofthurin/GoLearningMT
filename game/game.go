@@ -106,6 +106,8 @@ func (g *Game) Open(args ...string) {
 	}
 
 	item.Open()
+
+	fmt.Printf("You opened %v.\n", item.Name)
 }
 
 func (g *Game) Close(args ...string) {
@@ -117,6 +119,8 @@ func (g *Game) Close(args ...string) {
 	}
 
 	item.Close()
+
+	fmt.Printf("You closed %v.\n", item.Name)
 }
 
 func (g *Game) Take(args ...string) {
@@ -135,6 +139,50 @@ func (g *Game) Take(args ...string) {
 	}
 
 	g.Inventory[args[0]] = item
+
+	fmt.Printf("You took %v.\n", item.Name)
+}
+
+func (g *Game) TakeFrom(args ...string) {
+	items := strings.Split(args[0], "from")
+
+	take := strings.TrimSpace(items[0])
+	from := strings.TrimSpace(items[1])
+
+	fmt.Printf("Going to take %v from inside of %v.\n", take, from)
+
+	container, ok := g.getItem(from)
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", from)
+		return
+	}
+
+	if !container.Openable {
+		fmt.Printf("The %v cannot be opened.\n", container.Name)
+		return
+	} else if !container.Opened {
+		fmt.Println("You need open the item to look inside.\n")
+		return
+	}
+
+	_, ok = container.Inventory[take]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", take)
+		return
+	}
+
+	item, ok := container.Take(take)
+
+	if !ok {
+		fmt.Println("\nIt seems that this item cannot be taken.\n")
+		return
+	}
+
+	g.Inventory[take] = item
+
+	fmt.Printf("You took %v from %v.\n", item.Name, container.Name)
 }
 
 func (g *Game) Move(to ...string) {
@@ -187,7 +235,7 @@ func parseCommand(cmd string) (string, string) {
 		direction := parseDirection(commands[1])
 		return "go", direction
 	case "look":
-		command, item := parseLookCommand(commands)
+		command, item := parseLook(commands)
 		return command, item
 	case "inventory":
 		return "inventory", ""
@@ -198,28 +246,12 @@ func parseCommand(cmd string) (string, string) {
 		item := parseItem(commands[1:])
 		return "close", item
 	case "take":
-		item := parseItem(commands[1:])
-		return "take", item
+		command, item := parseTake(commands[1:])
+		return command, item
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""
 	}
-}
-
-func parseLookCommand(commands []string) (string, string) {
-	if len(commands) == 1 {
-		return "look", ""
-	}
-
-	item := parseItem(commands[2:])
-	command := strings.Join(commands[:2], " ")
-
-	if command == "look at" {
-		return "look at", item
-	} else if command == "look in" {
-		return "look in", item
-	}
-	return "look", ""
 }
 
 func parseDirection(command string) string {
@@ -234,6 +266,34 @@ func parseDirection(command string) string {
 	} else {
 		return ""
 	}
+}
+
+func parseTake(commands []string) (string, string) {
+	command := strings.Join(commands, " ")
+
+	contains := strings.Contains(command, "from")
+	if contains {
+		return "take from", command
+	}
+
+	item := parseItem(commands[1:])
+	return "take", item
+}
+
+func parseLook(commands []string) (string, string) {
+	if len(commands) == 1 {
+		return "look", ""
+	}
+
+	item := parseItem(commands[2:])
+	command := strings.Join(commands[:2], " ")
+
+	if command == "look at" {
+		return "look at", item
+	} else if command == "look in" {
+		return "look in", item
+	}
+	return "look", ""
 }
 
 func parseItem(command []string) string {
