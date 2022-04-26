@@ -124,7 +124,6 @@ func (g *Game) Close(args ...string) {
 }
 
 func (g *Game) Take(args ...string) {
-	fmt.Println("Trying to take item", args[0])
 	_, ok := g.Location.Inventory[args[0]]
 
 	if !ok {
@@ -184,6 +183,30 @@ func (g *Game) TakeFrom(args ...string) {
 	g.Inventory[take] = item
 
 	fmt.Printf("You took %v from %v.\n", item.Name, container.Name)
+}
+
+func (g *Game) takeFromInventory(name string) (*Item, bool) {
+	item := g.Inventory[name]
+
+	delete(g.Inventory, name)
+
+	return item, true
+}
+
+func (g *Game) Drop(args ...string) {
+	_, ok := g.Inventory[args[0]]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not in your inventory.\n", args[0])
+		return
+	}
+
+	item, ok := g.takeFromInventory(args[0])
+	fmt.Println("Dropping", item)
+
+	g.Location.Inventory[args[0]] = item
+
+	fmt.Printf("You dropped %v in %v.\n", item.Name, g.Location.Name)
 }
 
 func (g *Game) Move(to ...string) {
@@ -249,6 +272,9 @@ func parseCommand(cmd string) (string, string) {
 	case "take":
 		command, item := parseTake(commands[1:])
 		return command, item
+	case "drop":
+		item := parseItem(commands[1:])
+		return "drop", item
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""

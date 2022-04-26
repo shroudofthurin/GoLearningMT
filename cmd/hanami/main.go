@@ -49,8 +49,8 @@ func CreateItems() game.Items {
 			false,
 			true,
 		),
-		"checklist": game.NewItem(
-			"Hanami Party Checklist",
+		"party checklist": game.NewItem(
+			"Party Checklist",
 			"A list of items required for the Hanami Party",
 			false,
 			true,
@@ -105,7 +105,7 @@ func CreateItems() game.Items {
 		),
 	}
 
-	game.SetItemInventory(items, "mailbox", "invitation", "checklist")
+	game.SetItemInventory(items, "mailbox", "invitation", " party checklist")
 	game.SetItemInventory(items, "fridge", "cake")
 	game.SetItemInventory(items, "tote bag", "wallet")
 
@@ -265,6 +265,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"take <item> from <item>: take an item from another item and add it to your inventory.",
 			"To take an item from another item, type take followed by the name of the item from container item, e.g. \"take cake from fridge\".",
 			g.TakeFrom,
+		),
+		"drop": game.NewCommand(
+			"Drop",
+			"drop <item>: drop an item from your inventory.",
+			"To drop an item from your inventory, type drop, followed by the name of the item, e.g. \"drop cake\".",
+			g.Drop,
 		),
 		"help": game.NewCommand(
 			"Help",
