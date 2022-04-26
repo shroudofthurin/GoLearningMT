@@ -24,8 +24,18 @@ func (g *Game) SetCommandList(commands CommandList) {
 }
 
 func (g *Game) Help(args ...string) {
-	fmt.Println("You are playing a text adventure game.")
-	fmt.Println("You control your character by entering commands")
+	fmt.Println("You control your character by entering commands.")
+
+	command, ok := g.CommandList[args[0]]
+
+	if ok {
+		command.LongDescription()
+		return
+	}
+
+	for _, command := range g.CommandList {
+		command.ShortDescription()
+	}
 }
 
 func (g *Game) DescribeInventory(args ...string) {
@@ -138,13 +148,17 @@ func (g *Game) Play() {
 }
 
 func parseCommand(cmd string) (string, string) {
-	commands := strings.Split(cmd, " ")
+	commands := strings.Split(strings.ToLower(cmd), " ")
 
 	switch commands[0] {
 	case "q", "quit":
 		return "quit", "quit"
 	case "h", "help":
-		return "help", ""
+		command := ""
+		if len(commands) > 1 {
+			command = strings.Join(commands[1:], " ")
+		}
+		return "help", command
 	case "go":
 		direction := getDirection(commands[1])
 		return "go", direction
@@ -172,15 +186,13 @@ func parseCommand(cmd string) (string, string) {
 }
 
 func getDirection(command string) string {
-	direction := strings.ToLower(command)
-
-	if direction == "n" || strings.Contains(direction, "north") {
+	if command == "n" || strings.Contains(command, "north") {
 		return "north"
-	} else if direction == "s" || strings.Contains(direction, "south") {
+	} else if command == "s" || strings.Contains(command, "south") {
 		return "south"
-	} else if direction == "e" || strings.Contains(direction, "east") {
+	} else if command == "e" || strings.Contains(command, "east") {
 		return "east"
-	} else if direction == "w" || strings.Contains(direction, "west") {
+	} else if command == "w" || strings.Contains(command, "west") {
 		return "west"
 	} else {
 		return ""
@@ -188,7 +200,7 @@ func getDirection(command string) string {
 }
 
 func getItem(command []string) string {
-	item := strings.ToLower(strings.Join(command, " "))
+	item := strings.Join(command, " ")
 	return item
 }
 
