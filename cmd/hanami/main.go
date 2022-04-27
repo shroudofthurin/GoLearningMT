@@ -105,7 +105,7 @@ func CreateItems() game.Items {
 		),
 	}
 
-	game.SetItemInventory(items, "mailbox", "invitation", " party checklist")
+	game.SetItemInventory(items, "mailbox", "invitation", "party checklist")
 	game.SetItemInventory(items, "fridge", "cake")
 	game.SetItemInventory(items, "tote bag", "wallet")
 
@@ -271,6 +271,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"drop <item>: drop an item from your inventory.",
 			"To drop an item from your inventory, type drop, followed by the name of the item, e.g. \"drop cake\".",
 			g.Drop,
+		),
+		"put in": game.NewCommand(
+			"Put In",
+			"put <item> in <item>: take an item from inventory, and put it in another item.",
+			"To put an item from your inventory into another item, e.g. \"put wallet in tote bag\".",
+			g.PutIn,
 		),
 		"help": game.NewCommand(
 			"Help",

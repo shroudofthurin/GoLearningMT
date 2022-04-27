@@ -19,6 +19,26 @@ func New(line *liner.State, location *Location) *Game {
 	return &game
 }
 
+func (g *Game) getItem(name string) (*Item, bool) {
+	item, ok := g.Location.Inventory[name]
+
+	if ok {
+		return item, ok
+	}
+
+	item, ok = g.Inventory[name]
+
+	return item, ok
+}
+
+func (g *Game) takeFromInventory(name string) (*Item, bool) {
+	item := g.Inventory[name]
+
+	delete(g.Inventory, name)
+
+	return item, true
+}
+
 func (g *Game) SetCommandList(commands CommandList) {
 	g.CommandList = commands
 }
@@ -61,18 +81,6 @@ func (g *Game) DescribeExits() {
 func (g *Game) DescribeItems() {
 	fmt.Println("\nItems:")
 	g.Location.ListInventory()
-}
-
-func (g *Game) getItem(name string) (*Item, bool) {
-	item, ok := g.Location.Inventory[name]
-
-	if ok {
-		return item, ok
-	}
-
-	item, ok = g.Inventory[name]
-
-	return item, ok
 }
 
 func (g *Game) LookAt(args ...string) {
@@ -149,8 +157,6 @@ func (g *Game) TakeFrom(args ...string) {
 	take := strings.TrimSpace(items[0])
 	from := strings.TrimSpace(items[1])
 
-	fmt.Printf("Going to take %v from inside of %v.\n", take, from)
-
 	container, ok := g.getItem(from)
 
 	if !ok {
@@ -185,14 +191,6 @@ func (g *Game) TakeFrom(args ...string) {
 	fmt.Printf("You took %v from %v.\n", item.Name, container.Name)
 }
 
-func (g *Game) takeFromInventory(name string) (*Item, bool) {
-	item := g.Inventory[name]
-
-	delete(g.Inventory, name)
-
-	return item, true
-}
-
 func (g *Game) Drop(args ...string) {
 	_, ok := g.Inventory[args[0]]
 
@@ -202,11 +200,45 @@ func (g *Game) Drop(args ...string) {
 	}
 
 	item, ok := g.takeFromInventory(args[0])
-	fmt.Println("Dropping", item)
 
 	g.Location.Inventory[args[0]] = item
 
 	fmt.Printf("You dropped %v in %v.\n", item.Name, g.Location.Name)
+}
+
+func (g *Game) PutIn(args ...string) {
+	items := strings.Split(args[0], " in ")
+
+	put := strings.TrimSpace(items[0])
+	inside := strings.TrimSpace(items[1])
+
+	container, ok := g.getItem(inside)
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", inside)
+		return
+	}
+
+	if !container.Openable {
+		fmt.Printf("The %v cannot be opened.\n", container.Name)
+		return
+	} else if !container.Opened {
+		fmt.Println("You need open the item to put things inside.\n")
+		return
+	}
+
+	_, ok = g.getItem(put)
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", put)
+		return
+	}
+
+	item, ok := g.takeFromInventory(put)
+
+	container.Inventory[put] = item
+
+	fmt.Printf("You took %v from your inventory and put it in %v.\n", item.Name, container.Name)
 }
 
 func (g *Game) Move(to ...string) {
@@ -275,6 +307,9 @@ func parseCommand(cmd string) (string, string) {
 	case "drop":
 		item := parseItem(commands[1:])
 		return "drop", item
+	case "put":
+		items := parseItem(commands[1:])
+		return "put in", items
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""
