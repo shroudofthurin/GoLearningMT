@@ -215,25 +215,29 @@ func CreateCommandList(g *game.Game) game.CommandList {
 		"go": game.NewCommand(
 			"Go",
 			"go <north|south|east|west>: go in the given compass direction.",
-			"To move throughout the space, simply type go followed by the direction, e.g \"go north\".",
+			"To move throughout the space, simply type go "+
+				"followed by the direction, e.g \"go north\".",
 			g.Move,
 		),
 		"look": game.NewCommand(
 			"Look",
 			"look: look around.",
-			"To examine your current location, type \"look\". It will describe the current location, exits, and items.",
+			"To examine your current location, type \"look\". "+
+				"It will describe the current location, exits, and items.",
 			g.Describe,
 		),
 		"look at": game.NewCommand(
 			"Look At",
 			"look at <item>: look at a specific item.",
-			"To exame an item further, type look at followed by the name of the item, e.g. \"look at flowers\".",
+			"To exame an item further, type look at followed by the "+
+				"name of the item, e.g. \"look at flowers\".",
 			g.LookAt,
 		),
 		"look in": game.NewCommand(
 			"Look In",
 			"look in <item>: look inside a specific item.",
-			"To exame what is inside an item, type look in followed by the name of the item, e.g. \"look in mailbox\".",
+			"To exame what is inside an item, type look in followed by "+
+				"the name of the item, e.g. \"look in mailbox\".",
 			g.LookIn,
 		),
 		"inventory": game.NewCommand(
@@ -245,43 +249,52 @@ func CreateCommandList(g *game.Game) game.CommandList {
 		"open": game.NewCommand(
 			"Open",
 			"open <item>: open a specific item.",
-			"To open an item, type open followed by the name of the item, e.g. \"open mailbox\".",
+			"To open an item, type open followed by the name of the item, "+
+				"e.g. \"open mailbox\".",
 			g.Open,
 		),
 		"close": game.NewCommand(
 			"Close",
 			"close <item>: close a specific item.",
-			"To close an item, type close, followed by the name of the item, e.g. \"close mailbox\".",
+			"To close an item, type close, followed by the name of the item, "+
+				"e.g. \"close mailbox\".",
 			g.Close,
 		),
 		"take": game.NewCommand(
 			"Take",
 			"take <item>: add an item to your inventory.",
-			"To take an item from a location, type take followed by the name of the item, e.g. \"take cake\".",
+			"To take an item from a location, type take followed by the "+
+				"name of the item, e.g. \"take cake\".",
 			g.Take,
 		),
 		"take from": game.NewCommand(
 			"Take From",
-			"take <item> from <item>: take an item from another item and add it to your inventory.",
-			"To take an item from another item, type take followed by the name of the item from container item, e.g. \"take cake from fridge\".",
+			"take <item> from <item>: take an item from another item and "+
+				"add it to your inventory.",
+			"To take an item from another item, type take followed by the "+
+				"name of the item from container item, "+
+				"e.g. \"take cake from fridge\".",
 			g.TakeFrom,
 		),
 		"drop": game.NewCommand(
 			"Drop",
 			"drop <item>: drop an item from your inventory.",
-			"To drop an item from your inventory, type drop, followed by the name of the item, e.g. \"drop cake\".",
+			"To drop an item from your inventory, type drop, followed by the "+
+				"name of the item, e.g. \"drop cake\".",
 			g.Drop,
 		),
 		"put in": game.NewCommand(
 			"Put In",
-			"put <item> in <item>: take an item from inventory, and put it in another item.",
-			"To put an item from your inventory into another item, e.g. \"put wallet in tote bag\".",
+			"put <item> in <item>: take an item from inventory, "+
+				"and put it in another item.",
+			"To put an item from your inventory into another item, "+
+				"e.g. \"put wallet in tote bag\".",
 			g.PutIn,
 		),
 		"help": game.NewCommand(
 			"Help",
 			"help <\"\"|command>: list all commands or a specific one.",
-			"I will eventually help you naviate this game and the commands available",
+			"I will help you naviate this game and the commands available",
 			g.Help,
 		),
 	}
