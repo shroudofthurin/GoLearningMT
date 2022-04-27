@@ -10,96 +10,123 @@ func CreateItems() game.Items {
 		"tote bag": game.NewItem(
 			"Tote Bag",
 			"A large bag suitable for carring lots of things.",
+			"",
 			true,
 			true,
 		),
 		"invitation": game.NewItem(
 			"Invitation",
 			"A written request inviting you to go somewhere.",
-			false,
-			true,
-		),
-		"picnic blanket": game.NewItem(
-			"Picnic Blanket",
-			"A soft blanket that is perfect for enjoying outdoor activities.",
-			false,
-			true,
-		),
-		"cards": game.NewItem(
-			"Cards",
-			"A standard deck of cards.",
-			false,
-			true,
-		),
-		"strawberries": game.NewItem(
-			"Strawberries",
-			"Small red fruits, which are soft and juicy and ready to be eaten.",
-			false,
-			true,
-		),
-		"ice": game.NewItem(
-			"Ice",
-			"A large, portable bag of ice.",
-			false,
-			true,
-		),
-		"cups": game.NewItem(
-			"Cups",
-			"20 plastic, single use, disposable cups.",
+			"Hanami Picnic!\n"+
+				"You are invited to a Hanami Flower Viewing Picnic.\n"+
+				"The picnic will take place in the park this afternoon!\n"+
+				"We have included a checklist of items needed for the picnic.\n"+
+				"Please collect all of the items and meet us at the park!",
 			false,
 			true,
 		),
 		"party checklist": game.NewItem(
 			"Party Checklist",
 			"A list of items required for the Hanami Party",
+			"Hanami Picnic Checklist.\n"+
+				"- picnic blanket\n"+
+				"- cards\n"+
+				"- strawberries\n"+
+				"- ice\n"+
+				"- cups\n"+
+				"- cake",
+			false,
+			true,
+		),
+		"picnic blanket": game.NewItem(
+			"Picnic Blanket",
+			"A soft blanket that is perfect for enjoying outdoor activities.",
+			"",
+			false,
+			true,
+		),
+		"cards": game.NewItem(
+			"Cards",
+			"A standard deck of cards.",
+			"",
+			false,
+			true,
+		),
+		"strawberries": game.NewItem(
+			"Strawberries",
+			"Small red fruits, which are soft and juicy and ready to be eaten.",
+			"",
+			false,
+			true,
+		),
+		"ice": game.NewItem(
+			"Ice",
+			"A large, portable bag of ice.",
+			"",
+			false,
+			true,
+		),
+		"cups": game.NewItem(
+			"Cups",
+			"20 plastic, single use, disposable cups.",
+			"",
 			false,
 			true,
 		),
 		"wallet": game.NewItem(
 			"Wallet",
 			"A pocket-sized flat poketbook for holding money and credit cards.",
+			"",
 			false,
 			false,
 		),
 		"cake": game.NewItem(
 			"Cake",
 			"A dense, velvety pound cake.",
+			"",
 			false,
 			true,
 		),
 		"fridge": game.NewItem(
 			"Fridge",
 			"A valuable household appliance, that keeps food and drinks cool.",
+			"",
 			true,
 			false,
 		),
-		"television": game.NewItem(
-			"Television",
-			"A simple LCD TV mounted on the wall.",
+		"hat": game.NewItem(
+			"Hat",
+			"A hat that will protect you from the sun's UV rays.",
+			"",
 			false,
-			false,
+			true,
 		),
 		"mailbox": game.NewItem(
 			"Mailbox",
 			"A letterbox used for receiving incoming mail.",
+			"",
 			true,
 			false,
 		),
 		"flower": game.NewItem(
 			"Flower",
 			"A beautiful plot of fully bloomed tulips.",
+			"",
 			false,
 			false,
 		),
 		"cherry blossoms": game.NewItem(
 			"Cherry Blossoms",
-			"A bunch of fully bloomed cheery blossom trees, with beautiful pink and white flowers.",
+			"A bunch of fully bloomed cheery blossom trees, "+
+				"with beautiful pink and white flowers.",
+			"",
 			false,
 			false,
 		),
-		"cash register": game.NewItem(
-			"Cash Register",
-			"A drawer for money and totals, displays, and records the amount of each sale.",
+		"koi pond": game.NewItem(
+			"Koi Pond",
+			"A relaxing and peaceful koi pond with dozens of beautiful koi fish.",
+			"",
 			false,
 			false,
 		),
@@ -196,11 +223,12 @@ func CreateLocations(items game.Items) game.Locations {
 	game.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
 	game.SetExits(locations, "garden", "south", "gravel path")
 
-	game.SetLocationInventory(locations, items, "store", "ice", "cups", "cash register")
+	game.SetLocationInventory(locations, items, "store", "ice", "cups")
 	game.SetLocationInventory(locations, items, "garden", "strawberries")
+	game.SetLocationInventory(locations, items, "engawa", "koi pond")
 	game.SetLocationInventory(locations, items, "flower garden", "flower")
 	game.SetLocationInventory(locations, items, "entryway", "tote bag")
-	game.SetLocationInventory(locations, items, "living room", "television")
+	game.SetLocationInventory(locations, items, "living room", "hat")
 	game.SetLocationInventory(locations, items, "kitchen", "fridge")
 	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket")
 	game.SetLocationInventory(locations, items, "closet", "cards")
@@ -239,6 +267,13 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To exame what is inside an item, type look in followed by "+
 				"the name of the item, e.g. \"look in mailbox\".",
 			g.LookIn,
+		),
+		"read": game.NewCommand(
+			"Read",
+			"read <item>: read the text of a specific item.",
+			"To read the text of an item, type read followed by "+
+				"the name of the item, e.g. \"read invitation\".",
+			g.Read,
 		),
 		"inventory": game.NewCommand(
 			"Inventory",

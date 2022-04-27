@@ -105,6 +105,17 @@ func (g *Game) LookIn(args ...string) {
 	item.Contents()
 }
 
+func (g *Game) Read(args ...string) {
+	item, ok := g.getItem(args[0])
+
+	if !ok {
+		printItemError()
+		return
+	}
+
+	item.Read()
+}
+
 func (g *Game) Open(args ...string) {
 	item, ok := g.getItem(args[0])
 
@@ -293,6 +304,9 @@ func parseCommand(cmd string) (string, string) {
 	case "look":
 		command, item := parseLook(commands)
 		return command, item
+	case "read":
+		item := parseItem(commands[1:])
+		return "read", item
 	case "inventory":
 		return "inventory", ""
 	case "open":

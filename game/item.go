@@ -7,6 +7,7 @@ type Item struct {
 	Openable bool
 	Opened   bool
 	Takeable bool
+	Text     string
 }
 
 func (item *Item) Open() {
@@ -25,6 +26,15 @@ func (item *Item) Close() {
 	}
 
 	item.Opened = false
+}
+
+func (item *Item) Read() {
+	if len([]rune(item.Text)) == 0 {
+		fmt.Println("\nIt seems that this item cannot be read.")
+		return
+	}
+
+	fmt.Println(item.Text)
 }
 
 func (item *Item) Info() {
@@ -54,12 +64,13 @@ func (item Item) Contents() {
 	item.ListInventory()
 }
 
-func NewItem(name, description string, openable, takeable bool) *Item {
+func NewItem(name, description, text string, openable, takeable bool) *Item {
 	item := Item{
 		Common{name, description, 0, make(Items)},
 		openable,
 		false,
 		takeable,
+		text,
 	}
 
 	return &item
