@@ -139,7 +139,28 @@ func CreateItems() game.Items {
 	return items
 }
 
-func CreateLocations(items game.Items) game.Locations {
+func CreateCharacters(items game.Items) game.Characters {
+	characters := game.Characters{
+		"store clerk": game.NewCharacter(
+			"Store Clerk",
+			"Someone who works at the store and might have some items for you.",
+			"Hello! Welcome to the Store, where everything is free!",
+			true,
+		),
+		"cat": game.NewCharacter(
+			"Lazy Cat",
+			"A fluffy cat is napping the afternoon away in the morning sun.",
+			"gorogoro.",
+			false,
+		),
+	}
+
+	game.SetCharacterInventory(characters, items, "store clerk", "ice", "cups")
+
+	return characters
+}
+
+func CreateLocations(items game.Items, characters game.Characters) game.Locations {
 	locations := game.Locations{
 		"store": game.NewLocation(
 			"Store",
@@ -223,7 +244,9 @@ func CreateLocations(items game.Items) game.Locations {
 	game.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
 	game.SetExits(locations, "garden", "south", "gravel path")
 
-	game.SetLocationInventory(locations, items, "store", "ice", "cups")
+	game.SetCharacters(locations, characters, "store", "store clerk")
+	game.SetCharacters(locations, characters, "engawa", "cat")
+
 	game.SetLocationInventory(locations, items, "garden", "strawberries")
 	game.SetLocationInventory(locations, items, "engawa", "koi pond")
 	game.SetLocationInventory(locations, items, "flower garden", "flower")
@@ -344,7 +367,8 @@ func main() {
 	line.SetCtrlCAborts(true)
 
 	items := CreateItems()
-	locations := CreateLocations(items)
+	characters := CreateCharacters(items)
+	locations := CreateLocations(items, characters)
 
 	hanamiGame := game.New(line, locations["front yard"])
 	commands := CreateCommandList(hanamiGame)

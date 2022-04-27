@@ -66,6 +66,7 @@ func (g *Game) DescribeInventory(args ...string) {
 func (g *Game) Describe(args ...string) {
 	g.DescribeCurrentLocation()
 	g.DescribeExits()
+	g.DescribeIndividuals()
 	g.DescribeItems()
 }
 
@@ -76,6 +77,11 @@ func (g *Game) DescribeCurrentLocation() {
 func (g *Game) DescribeExits() {
 	fmt.Println("\nExits:")
 	g.Location.ListExits()
+}
+
+func (g *Game) DescribeIndividuals() {
+	fmt.Println("\nIndividuals:")
+	g.Location.ListIndividuals()
 }
 
 func (g *Game) DescribeItems() {

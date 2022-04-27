@@ -28,10 +28,10 @@ func (common Common) Info() {
 func (common Common) ListInventory() {
 	if len(common.Inventory) == 0 {
 		fmt.Println("{}")
-	} else {
-		for _, v := range common.Inventory {
-			fmt.Printf("%s\n", v.Name)
-		}
-		fmt.Println("\n")
+		return
+	}
+
+	for _, v := range common.Inventory {
+		fmt.Printf("%s\n", v.Name)
 	}
 }
