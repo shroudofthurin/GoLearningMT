@@ -34,7 +34,15 @@ func CreateItems() game.Items {
 				"- strawberries\n"+
 				"- ice\n"+
 				"- cups\n"+
+				"- green tea\n"+
 				"- cake",
+			false,
+			true,
+		),
+		"green tea": game.NewItem(
+			"Green Tea",
+			"The perfect spring drink to bring with you to a hanami picnic.",
+			"",
 			false,
 			true,
 		),
@@ -153,9 +161,24 @@ func CreateCharacters(items game.Items) game.Characters {
 			"gorogoro.",
 			false,
 		),
+		"obaa-chan": game.NewCharacter(
+			"Tea House Obaa-chan",
+			"A sweet old lady who has been running a small tea house "+
+				"her whole life. She has the best green tea in town.",
+			"Good afternoon. We are giving away green tea for free to "+
+				"celebrate the hanami season. There is limited supply.",
+			true,
+		),
+		"ren": game.NewCharacter(
+			"Ren",
+			"Your friend who is organizing the hanami viewing picnic.",
+			"I can't wait for everyone to arrive with food and drinks!!",
+			false,
+		),
 	}
 
 	game.SetCharacterInventory(characters, items, "store clerk", "ice", "cups")
+	game.SetCharacterInventory(characters, items, "obaa-chan", "green tea")
 
 	return characters
 }
@@ -202,9 +225,9 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 			"Bedroom",
 			"A place where you sleep and study.",
 		),
-		"closet": game.NewLocation(
-			"Closet",
-			"A place jackets, blankets, and games are stored.",
+		"tea house": game.NewLocation(
+			"Tea House",
+			"A place to that provides quality tea and amazing views.",
 		),
 		"engawa": game.NewLocation(
 			"Engawa",
@@ -229,8 +252,9 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 	}
 	game.SetExits(locations, "store", "east", "street")
 	game.SetExits(locations, "street", "north", "front yard", "south", "park", "west", "store")
-	game.SetExits(locations, "park", "north", "street", "south", "cherry blossoms")
+	game.SetExits(locations, "park", "north", "street", "south", "cherry blossoms", "east", "tea house")
 	game.SetExits(locations, "cherry blossoms", "north", "park")
+	game.SetExits(locations, "tea house", "west", "park")
 	game.SetExits(locations, "front yard", "north", "porch", "south", "street", "west", "flower garden")
 	game.SetExits(locations, "flower garden", "east", "front yard")
 	game.SetExits(locations, "porch", "north", "entryway", "south", "front yard")
@@ -238,14 +262,15 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 	game.SetExits(locations, "kitchen", "west", "entryway")
 	game.SetExits(locations, "hallway", "north", "engawa", "south", "entryway", "east", "living room", "west", "bedroom")
 	game.SetExits(locations, "living room", "west", "hallway")
-	game.SetExits(locations, "bedroom", "south", "closet", "east", "hallway")
-	game.SetExits(locations, "closet", "north", "bedroom")
+	game.SetExits(locations, "bedroom", "east", "hallway")
 	game.SetExits(locations, "engawa", "north", "gravel path", "south", "hallway")
 	game.SetExits(locations, "gravel path", "north", "garden", "south", "engawa")
 	game.SetExits(locations, "garden", "south", "gravel path")
 
 	game.SetCharacters(locations, characters, "store", "store clerk")
 	game.SetCharacters(locations, characters, "engawa", "cat")
+	game.SetCharacters(locations, characters, "tea house", "obaa-chan")
+	game.SetCharacters(locations, characters, "park", "ren")
 
 	game.SetLocationInventory(locations, items, "garden", "strawberries")
 	game.SetLocationInventory(locations, items, "engawa", "koi pond")
@@ -253,8 +278,7 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 	game.SetLocationInventory(locations, items, "entryway", "tote bag")
 	game.SetLocationInventory(locations, items, "living room", "hat")
 	game.SetLocationInventory(locations, items, "kitchen", "fridge")
-	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket")
-	game.SetLocationInventory(locations, items, "closet", "cards")
+	game.SetLocationInventory(locations, items, "bedroom", "picnic blanket", "cards")
 	game.SetLocationInventory(locations, items, "cherry blossoms", "cherry blossoms")
 	game.SetLocationInventory(locations, items, "front yard", "mailbox")
 
