@@ -10,9 +10,21 @@ type Item struct {
 	Text     string
 }
 
+func NewItem(name, description, text string, openable, takeable bool) *Item {
+	item := Item{
+		Common{name, description, 0, make(Items)},
+		openable,
+		false,
+		takeable,
+		text,
+	}
+
+	return &item
+}
+
 func (item *Item) Open() {
 	if !item.Openable {
-		fmt.Println("\nIt seems that this item cannot be opened.\n")
+		fmt.Println("\nIt seems that this item cannot be opened.")
 		return
 	}
 
@@ -21,7 +33,7 @@ func (item *Item) Open() {
 
 func (item *Item) Close() {
 	if !item.Openable {
-		fmt.Println("\nIt seems that this item cannot be closed.\n")
+		fmt.Println("\nIt seems that this item cannot be closed.")
 		return
 	}
 
@@ -62,18 +74,6 @@ func (item Item) Contents() {
 
 	fmt.Println("\nContains:")
 	item.ListInventory()
-}
-
-func NewItem(name, description, text string, openable, takeable bool) *Item {
-	item := Item{
-		Common{name, description, 0, make(Items)},
-		openable,
-		false,
-		takeable,
-		text,
-	}
-
-	return &item
 }
 
 func SetItemInventory(items Items, names ...string) {

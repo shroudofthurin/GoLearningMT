@@ -153,7 +153,7 @@ func (g *Game) Take(args ...string) {
 	item, ok := g.Location.Take(args[0])
 
 	if !ok {
-		fmt.Println("\nIt seems that this item cannot be taken.\n")
+		fmt.Println("\nIt seems that this item cannot be taken.")
 		return
 	}
 
@@ -179,7 +179,7 @@ func (g *Game) TakeFrom(args ...string) {
 		fmt.Printf("The %v cannot be opened.\n", container.Name)
 		return
 	} else if !container.Opened {
-		fmt.Println("You need open the item to look inside.\n")
+		fmt.Println("You need open the item to look inside.")
 		return
 	}
 
@@ -193,7 +193,7 @@ func (g *Game) TakeFrom(args ...string) {
 	item, ok := container.Take(take)
 
 	if !ok {
-		fmt.Println("\nIt seems that this item cannot be taken.\n")
+		fmt.Println("\nIt seems that this item cannot be taken.")
 		return
 	}
 
@@ -234,7 +234,7 @@ func (g *Game) PutIn(args ...string) {
 		fmt.Printf("The %v cannot be opened.\n", container.Name)
 		return
 	} else if !container.Opened {
-		fmt.Println("You need open the item to put things inside.\n")
+		fmt.Println("You need open the item to put things inside.")
 		return
 	}
 
@@ -256,7 +256,7 @@ func (g *Game) Move(to ...string) {
 	location, ok := g.Location.Exits[to[0]]
 
 	if !ok {
-		fmt.Println("\nYou can't go that direction!!\n")
+		fmt.Println("\nYou can't go that direction!!")
 		return
 	}
 
@@ -265,8 +265,9 @@ func (g *Game) Move(to ...string) {
 }
 
 func (g *Game) Play() {
-	fmt.Println("Let's Hanami!\n")
+	fmt.Println("Let's Hanami!")
 	g.Describe()
+	fmt.Printf("\n")
 
 	for {
 		cmd, err := g.Line.Prompt("What do you want to do? ")
@@ -283,6 +284,7 @@ func (g *Game) Play() {
 		}
 
 		g.CommandList[action].Action(command)
+		fmt.Printf("\n")
 	}
 }
 
@@ -378,5 +380,5 @@ func parseItem(command []string) string {
 }
 
 func printItemError() {
-	fmt.Println("\nThat item is not available.\n")
+	fmt.Println("\nThat item is not available.")
 }
