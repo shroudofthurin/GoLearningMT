@@ -162,7 +162,7 @@ func CreateCharacters(items game.Items) game.Characters {
 			false,
 		),
 		"obaa-chan": game.NewCharacter(
-			"Tea House Obaa-chan",
+			"Obaa-chan",
 			"A sweet old lady who has been running a small tea house "+
 				"her whole life. She has the best green tea in town.",
 			"Good afternoon. We are giving away green tea for free to "+
@@ -372,6 +372,14 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To put an item from your inventory into another item, "+
 				"e.g. \"put wallet in tote bag\".",
 			g.PutIn,
+		),
+		"ask": game.NewCommand(
+			"Ask",
+			"ask <character> for <item>: Ask character for item "+
+				"in their inventory.",
+			"To ask a character for an item in their inventory "+
+				"e.g. \"ask store clerk for ice\".",
+			g.AskFor,
 		),
 		"help": game.NewCommand(
 			"Help",

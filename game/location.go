@@ -34,7 +34,7 @@ func (location Location) ListIndividuals() {
 	}
 
 	for _, v := range location.Individuals {
-		fmt.Printf("%s - %s\n", v.Name, v.Description)
+		fmt.Printf("%s.\n", v.Name)
 	}
 }
 

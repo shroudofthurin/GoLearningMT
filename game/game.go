@@ -92,12 +92,19 @@ func (g *Game) DescribeItems() {
 func (g *Game) LookAt(args ...string) {
 	item, ok := g.getItem(args[0])
 
-	if !ok {
-		printItemError()
+	if ok {
+		item.Info()
 		return
 	}
 
-	item.Info()
+	character, ok := g.Location.Individuals[args[0]]
+
+	if ok {
+		character.Info()
+		return
+	}
+
+	fmt.Println("\nThat item or person is not available.")
 }
 
 func (g *Game) LookIn(args ...string) {
@@ -258,6 +265,11 @@ func (g *Game) PutIn(args ...string) {
 	fmt.Printf("You took %v from your inventory and put it in %v.\n", item.Name, container.Name)
 }
 
+func (g *Game) AskFor(args ...string) {
+	items := strings.Split(args[0], " for ")
+	fmt.Printf("Going to ask %v for %v.\n", items[0], items[1])
+}
+
 func (g *Game) Move(to ...string) {
 	location, ok := g.Location.Exits[to[0]]
 
@@ -332,6 +344,9 @@ func parseCommand(cmd string) (string, string) {
 	case "put":
 		items := parseItem(commands[1:])
 		return "put in", items
+	case "ask":
+		items := parseItem(commands[1:])
+		return "ask", items
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""

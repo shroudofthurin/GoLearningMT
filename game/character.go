@@ -1,5 +1,7 @@
 package game
 
+import "fmt"
+
 type Character struct {
 	Common
 	Phrase  string
@@ -14,6 +16,14 @@ func NewCharacter(name, description, phrase string, askable bool) *Character {
 	}
 
 	return &character
+}
+
+func (character *Character) Info() {
+	fmt.Printf("\n%v\n%v\n", character.Name, character.Description)
+	if character.Askable {
+		fmt.Println("\nInventory:")
+		character.ListInventory()
+	}
 }
 
 type Characters map[string]*Character
