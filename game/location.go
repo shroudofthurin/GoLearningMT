@@ -11,9 +11,9 @@ type Location struct {
 	Individuals Characters
 }
 
-func NewLocation(name, description string) *Location {
+func NewLocation(name, description string, points int) *Location {
 	location := Location{
-		Common{name, description, 0, make(Items)},
+		Common{name, description, points, make(Items)},
 		make(Locations),
 		make(Characters),
 	}

@@ -12,10 +12,11 @@ type Game struct {
 	Location    *Location
 	CommandList CommandList
 	Inventory   Items
+	Points      int
 }
 
 func New(line *liner.State, location *Location) *Game {
-	game := Game{line, location, make(CommandList), make(Items)}
+	game := Game{line, location, make(CommandList), make(Items), 0}
 	return &game
 }
 
@@ -58,8 +59,13 @@ func (g *Game) Help(args ...string) {
 	}
 }
 
+func (g *Game) SeeScore(args ...string) {
+	fmt.Println("Current Score:", g.Points)
+}
+
 func (g *Game) DescribeInventory(args ...string) {
-	fmt.Println("\nCurrent Inventory:")
+	fmt.Println("Current Inventory:")
+
 	g.Inventory.ListItems()
 }
 
@@ -104,7 +110,7 @@ func (g *Game) LookAt(args ...string) {
 		return
 	}
 
-	fmt.Println("\nThat item or person is not available.")
+	fmt.Println("That item or person is not available.")
 }
 
 func (g *Game) LookIn(args ...string) {
@@ -166,8 +172,13 @@ func (g *Game) Take(args ...string) {
 	item, ok := g.Location.Take(args[0])
 
 	if !ok {
-		fmt.Println("\nIt seems that this item cannot be taken.")
+		fmt.Println("It seems that this item cannot be taken.")
 		return
+	}
+
+	if item.Points > 0 {
+		g.Points += item.Points
+		item.Points = 0
 	}
 
 	g.Inventory[args[0]] = item
@@ -208,6 +219,11 @@ func (g *Game) TakeFrom(args ...string) {
 	if !ok {
 		fmt.Println("\nIt seems that this item cannot be taken.")
 		return
+	}
+
+	if item.Points > 0 {
+		g.Points += item.Points
+		item.Points = 0
 	}
 
 	g.Inventory[take] = item
@@ -292,6 +308,16 @@ func (g *Game) AskFor(args ...string) {
 
 	item, ok := individual.Take(want)
 
+	if item.Points > 0 {
+		g.Points += item.Points
+		item.Points = 0
+	}
+
+	if !individual.Askable {
+		g.Points += individual.Points
+		individual.Points = 0
+	}
+
 	g.Inventory[want] = item
 
 	fmt.Printf("%v gave you %v.\n", individual.Name, item.Name)
@@ -313,6 +339,11 @@ func (g *Game) Move(to ...string) {
 	if !ok {
 		fmt.Println("\nYou can't go that direction!!")
 		return
+	}
+
+	if location.Points > 0 {
+		g.Points += location.Points
+		location.Points = 0
 	}
 
 	g.Location = location
@@ -391,9 +422,15 @@ func parseCommand(cmd string) (string, string) {
 		}
 		items := parseItem(commands[3:])
 		return "say hello", items
+	case "see":
+		command := strings.Join(commands[:2], " ")
+		if command != "see score" {
+			return "help", "see score"
+		}
+		return "see score", ""
 	default:
 		fmt.Println("Do not understand your command.")
-		return "look", ""
+		return "help", ""
 	}
 }
 

@@ -10,9 +10,9 @@ type Item struct {
 	Text     string
 }
 
-func NewItem(name, description, text string, openable, takeable bool) *Item {
+func NewItem(name, description, text string, points int, openable, takeable bool) *Item {
 	item := Item{
-		Common{name, description, 0, make(Items)},
+		Common{name, description, points, make(Items)},
 		openable,
 		false,
 		takeable,

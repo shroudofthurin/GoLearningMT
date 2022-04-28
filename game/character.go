@@ -8,9 +8,9 @@ type Character struct {
 	Askable bool
 }
 
-func NewCharacter(name, description, phrase string, askable bool) *Character {
+func NewCharacter(name, description, phrase string, points int, askable bool) *Character {
 	character := Character{
-		Common{name, description, 0, make(Items)},
+		Common{name, description, points, make(Items)},
 		phrase,
 		askable,
 	}

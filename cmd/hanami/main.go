@@ -11,6 +11,7 @@ func CreateItems() game.Items {
 			"Tote Bag",
 			"A large bag suitable for carring lots of things.",
 			"",
+			1,
 			true,
 			true,
 		),
@@ -22,6 +23,7 @@ func CreateItems() game.Items {
 				"The picnic will take place in the park this afternoon!\n"+
 				"We have included a checklist of items needed for the picnic.\n"+
 				"Please collect all of the items and meet us at the park!",
+			1,
 			false,
 			true,
 		),
@@ -36,6 +38,7 @@ func CreateItems() game.Items {
 				"- cups\n"+
 				"- green tea\n"+
 				"- cake",
+			1,
 			false,
 			true,
 		),
@@ -43,6 +46,7 @@ func CreateItems() game.Items {
 			"Green Tea",
 			"The perfect spring drink to bring with you to a hanami picnic.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -50,6 +54,7 @@ func CreateItems() game.Items {
 			"Picnic Blanket",
 			"A soft blanket that is perfect for enjoying outdoor activities.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -57,6 +62,7 @@ func CreateItems() game.Items {
 			"Cards",
 			"A standard deck of cards.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -64,6 +70,7 @@ func CreateItems() game.Items {
 			"Strawberries",
 			"Small red fruits, which are soft and juicy and ready to be eaten.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -71,6 +78,7 @@ func CreateItems() game.Items {
 			"Ice",
 			"A large, portable bag of ice.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -78,6 +86,7 @@ func CreateItems() game.Items {
 			"Cups",
 			"20 plastic, single use, disposable cups.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -85,6 +94,7 @@ func CreateItems() game.Items {
 			"Wallet",
 			"A pocket-sized flat poketbook for holding money and credit cards.",
 			"",
+			0,
 			false,
 			false,
 		),
@@ -92,6 +102,7 @@ func CreateItems() game.Items {
 			"Cake",
 			"A dense, velvety pound cake.",
 			"",
+			1,
 			false,
 			true,
 		),
@@ -99,6 +110,7 @@ func CreateItems() game.Items {
 			"Fridge",
 			"A valuable household appliance, that keeps food and drinks cool.",
 			"",
+			0,
 			true,
 			false,
 		),
@@ -106,6 +118,7 @@ func CreateItems() game.Items {
 			"Hat",
 			"A hat that will protect you from the sun's UV rays.",
 			"",
+			0,
 			false,
 			true,
 		),
@@ -113,6 +126,7 @@ func CreateItems() game.Items {
 			"Mailbox",
 			"A letterbox used for receiving incoming mail.",
 			"",
+			0,
 			true,
 			false,
 		),
@@ -120,6 +134,7 @@ func CreateItems() game.Items {
 			"Flower",
 			"A beautiful plot of fully bloomed tulips.",
 			"",
+			0,
 			false,
 			false,
 		),
@@ -128,6 +143,7 @@ func CreateItems() game.Items {
 			"A bunch of fully bloomed cheery blossom trees, "+
 				"with beautiful pink and white flowers.",
 			"",
+			0,
 			false,
 			false,
 		),
@@ -135,6 +151,7 @@ func CreateItems() game.Items {
 			"Koi Pond",
 			"A relaxing and peaceful koi pond with dozens of beautiful koi fish.",
 			"",
+			0,
 			false,
 			false,
 		),
@@ -153,12 +170,14 @@ func CreateCharacters(items game.Items) game.Characters {
 			"Store Clerk",
 			"Someone who works at the store and might have some items for you.",
 			"Hello! Welcome to the Store, where everything is free!",
+			2,
 			true,
 		),
 		"lazy cat": game.NewCharacter(
 			"Lazy Cat",
 			"A fluffy cat is napping the afternoon away in the morning sun.",
 			"nyaaaaaaoooooo. gorogoro.",
+			0,
 			false,
 		),
 		"obaa-chan": game.NewCharacter(
@@ -167,12 +186,14 @@ func CreateCharacters(items game.Items) game.Characters {
 				"her whole life. She has the best green tea in town.",
 			"Good afternoon. We are giving away green tea for free to "+
 				"celebrate the hanami season. There is limited supply.",
+			2,
 			true,
 		),
 		"ren": game.NewCharacter(
 			"Ren",
 			"Your friend who is organizing the hanami viewing picnic.",
 			"I can't wait for everyone to arrive with food and drinks!!",
+			0,
 			false,
 		),
 	}
@@ -188,66 +209,82 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 		"store": game.NewLocation(
 			"Store",
 			"A place where you can buy ice.",
+			0,
 		),
 		"street": game.NewLocation(
 			"Street",
 			"At one end is a store and the other your porch.",
+			0,
 		),
 		"front yard": game.NewLocation(
 			"Front Yard",
 			"It's where you have your mailbox.",
+			0,
 		),
 		"porch": game.NewLocation(
 			"Porch",
 			"You can see the your front yard from here.",
+			0,
 		),
 		"flower garden": game.NewLocation(
 			"Flower Garden",
 			"Your flower are in full bloom.",
+			0,
 		),
 		"entryway": game.NewLocation(
 			"Entryway",
 			"A place to put your bags, keys, and shoes.",
+			0,
 		),
 		"kitchen": game.NewLocation(
 			"Kitchen",
 			"A place where meals are made and enjoyed.",
+			0,
 		),
 		"hallway": game.NewLocation(
 			"Hallway",
 			"A place that connects you to other rooms.",
+			0,
 		),
 		"living room": game.NewLocation(
 			"Living Room",
 			"A place to relax and watch TV.",
+			0,
 		),
 		"bedroom": game.NewLocation(
 			"Bedroom",
 			"A place where you sleep and study.",
+			0,
 		),
 		"tea house": game.NewLocation(
 			"Tea House",
 			"A place to that provides quality tea and amazing views.",
+			0,
 		),
 		"engawa": game.NewLocation(
 			"Engawa",
 			"A place where you can sit and relax, or follow the gravel path.",
+			1,
 		),
 		"gravel path": game.NewLocation(
 			"Gravel Path",
 			"A gravel path that leads you to your garden.",
+			0,
 		),
 		"garden": game.NewLocation(
 			"Garden",
 			"There is fruit and vegetables a plenty. The strawberries are ready to be picked.",
+			0,
 		),
 		"park": game.NewLocation(
 			"Park",
 			"This lush green park is perfect for celebrating hanami.",
+			0,
 		),
 		"cherry blossoms": game.NewLocation(
 			"Cherry Blossoms",
 			"The cherry blossom trees are in full bloom. It looks like there is space for celebrating Hanami.",
+			1,
 		),
 	}
 	game.SetExits(locations, "store", "east", "street")
@@ -268,7 +305,7 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 	game.SetExits(locations, "garden", "south", "gravel path")
 
 	game.SetCharacters(locations, characters, "store", "store clerk")
-	game.SetCharacters(locations, characters, "engawa", "lazy cat")
+	game.SetCharacters(locations, characters, "garden", "lazy cat")
 	game.SetCharacters(locations, characters, "tea house", "obaa-chan")
 	game.SetCharacters(locations, characters, "park", "ren")
 
@@ -387,6 +424,12 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To hear what another character has to say, simply type, say "+
 				"hello to followed by their name e.g. \"say hello to ren\".",
 			g.SayHello,
+		),
+		"see score": game.NewCommand(
+			"See Score",
+			"see score: look at your current score.",
+			"To see your current score in the game, just type \"see score\".",
+			g.SeeScore,
 		),
 		"help": game.NewCommand(
 			"Help",
