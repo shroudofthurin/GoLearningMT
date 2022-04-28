@@ -63,12 +63,12 @@ func (item *Item) Info() {
 
 func (item Item) Contents() {
 	if !item.Openable {
-		fmt.Printf("\nThe %v cannot be opened.\n", item.Name)
+		fmt.Printf("The %v cannot be opened.\n", item.Name)
 		return
 	}
 
 	if !item.Opened {
-		fmt.Println("\nYou need open the item to look inside.")
+		fmt.Println("You need open the item to look inside.")
 		return
 	}
 

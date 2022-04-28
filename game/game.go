@@ -267,7 +267,34 @@ func (g *Game) PutIn(args ...string) {
 
 func (g *Game) AskFor(args ...string) {
 	items := strings.Split(args[0], " for ")
-	fmt.Printf("Going to ask %v for %v.\n", items[0], items[1])
+
+	character := strings.TrimSpace(items[0])
+	want := strings.TrimSpace(items[1])
+
+	individual, ok := g.Location.Individuals[character]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", character)
+		return
+	}
+
+	if !individual.Askable {
+		fmt.Printf("%v does not have any item to give.\n", individual.Name)
+		return
+	}
+
+	_, ok = individual.Inventory[want]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", want)
+		return
+	}
+
+	item, ok := individual.Take(want)
+
+	g.Inventory[want] = item
+
+	fmt.Printf("%v gave you %v.\n", individual.Name, item.Name)
 }
 
 func (g *Game) Move(to ...string) {
