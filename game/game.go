@@ -371,7 +371,21 @@ func (g *Game) Play() {
 
 		g.CommandList[action].Action(command)
 		fmt.Printf("\n")
+
+		if g.Points == 16 {
+			fmt.Println("You have collected all of the required items,")
+			fmt.Println("talked to the required characters, and")
+			fmt.Println("visited the required locations.")
+			fmt.Printf("\n\n")
+			fmt.Println("You spent the afternoon in the park with all of")
+			fmt.Println("your friends, laughing, eating, drinking, and")
+			fmt.Println("admiring the beautiful cherry blossoms.")
+			fmt.Printf("\n\n")
+
+			break
+		}
 	}
+	fmt.Println("The game has ended!")
 }
 
 func parseCommand(cmd string) (string, string) {
