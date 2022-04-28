@@ -323,6 +323,44 @@ func (g *Game) AskFor(args ...string) {
 	fmt.Printf("%v gave you %v.\n", individual.Name, item.Name)
 }
 
+func (g *Game) Give(args ...string) {
+	items := strings.Split(args[0], " to ")
+
+	give := strings.TrimSpace(items[0])
+	to := strings.TrimSpace(items[1])
+
+	_, ok := g.Inventory[give]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not in your inventory.\n", give)
+		return
+	}
+
+	character, ok := g.Location.Individuals[to]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", to)
+		return
+	}
+
+	if !character.Givable {
+		fmt.Printf("%v cannot receive any items.\n", character.Name)
+		return
+	}
+
+	item, ok := g.takeFromInventory(give)
+
+	character.Inventory[give] = item
+	character.Askable = true
+
+	if character.Points > 0 {
+		g.Points += character.Points
+		character.Points = 0
+	}
+
+	fmt.Printf("You gave %v to %v.\n", item.Name, character.Name)
+}
+
 func (g *Game) SayHello(args ...string) {
 	character, ok := g.Location.Individuals[args[0]]
 
@@ -402,6 +440,9 @@ func parseCommand(cmd string) (string, string) {
 		return "help", command
 	case "go":
 		direction := parseDirection(commands[1])
+		if direction == "" {
+			return "help", "go"
+		}
 		return "go", direction
 	case "look":
 		command, item := parseLook(commands)
@@ -429,6 +470,9 @@ func parseCommand(cmd string) (string, string) {
 	case "ask":
 		items := parseItem(commands[1:])
 		return "ask", items
+	case "give":
+		items := parseItem(commands[1:])
+		return "give", items
 	case "say":
 		command := strings.Join(commands[:3], " ")
 		if command != "say hello to" {
@@ -487,7 +531,7 @@ func parseLook(commands []string) (string, string) {
 	} else if command == "look in" {
 		return "look in", item
 	}
-	return "look", ""
+	return "help", "look"
 }
 
 func parseItem(command []string) string {

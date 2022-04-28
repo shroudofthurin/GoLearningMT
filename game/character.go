@@ -6,13 +6,15 @@ type Character struct {
 	Common
 	Phrase  string
 	Askable bool
+	Givable bool
 }
 
-func NewCharacter(name, description, phrase string, points int, askable bool) *Character {
+func NewCharacter(name, description, phrase string, points int, askable, givable bool) *Character {
 	character := Character{
 		Common{name, description, points, make(Items)},
 		phrase,
 		askable,
+		givable,
 	}
 
 	return &character

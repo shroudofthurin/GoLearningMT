@@ -24,7 +24,7 @@ func NewItem(name, description, text string, points int, openable, takeable bool
 
 func (item *Item) Open() {
 	if !item.Openable {
-		fmt.Println("\nIt seems that this item cannot be opened.")
+		fmt.Println("It seems that this item cannot be opened.")
 		return
 	}
 
@@ -33,7 +33,7 @@ func (item *Item) Open() {
 
 func (item *Item) Close() {
 	if !item.Openable {
-		fmt.Println("\nIt seems that this item cannot be closed.")
+		fmt.Println("It seems that this item cannot be closed.")
 		return
 	}
 
@@ -42,7 +42,7 @@ func (item *Item) Close() {
 
 func (item *Item) Read() {
 	if len([]rune(item.Text)) == 0 {
-		fmt.Println("\nIt seems that this item cannot be read.")
+		fmt.Println("It seems that this item cannot be read.")
 		return
 	}
 
@@ -50,7 +50,7 @@ func (item *Item) Read() {
 }
 
 func (item *Item) Info() {
-	fmt.Printf("\nThe %v - %v\n", item.Name, item.Description)
+	fmt.Printf("\nThe %v.\n%v\n", item.Name, item.Description)
 
 	if item.Openable {
 		if item.Opened {

@@ -136,7 +136,7 @@ func CreateItems() game.Items {
 			"",
 			0,
 			false,
-			false,
+			true,
 		),
 		"cherry blossoms": game.NewItem(
 			"Cherry Blossoms",
@@ -172,12 +172,14 @@ func CreateCharacters(items game.Items) game.Characters {
 			"Hello! Welcome to the Store, where everything is free!",
 			2,
 			true,
+			false,
 		),
 		"lazy cat": game.NewCharacter(
 			"Lazy Cat",
 			"A fluffy cat is napping the afternoon away in the morning sun.",
 			"nyaaaaaaoooooo. gorogoro.",
 			0,
+			false,
 			false,
 		),
 		"obaa-chan": game.NewCharacter(
@@ -186,15 +188,17 @@ func CreateCharacters(items game.Items) game.Characters {
 				"her whole life. She has the best green tea in town.",
 			"Good afternoon. We are giving away green tea for free to "+
 				"celebrate the hanami season. There is limited supply.",
-			2,
+			1,
 			true,
+			false,
 		),
 		"ren": game.NewCharacter(
 			"Ren",
 			"Your friend who is organizing the hanami viewing picnic.",
 			"I can't wait for everyone to arrive with food and drinks!!",
-			0,
+			1,
 			false,
+			true,
 		),
 	}
 
@@ -417,6 +421,14 @@ func CreateCommandList(g *game.Game) game.CommandList {
 			"To ask a character for an item in their inventory "+
 				"e.g. \"ask store clerk for ice\".",
 			g.AskFor,
+		),
+		"give": game.NewCommand(
+			"Give",
+			"give <item> to <character>: give an item to a character.",
+			"You can give a character an item from your inventory. If you "+
+				"give a character the right item, you might get a point or two "+
+				"in return.",
+			g.Give,
 		),
 		"say hello": game.NewCommand(
 			"Say Hello",
