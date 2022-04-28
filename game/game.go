@@ -297,6 +297,16 @@ func (g *Game) AskFor(args ...string) {
 	fmt.Printf("%v gave you %v.\n", individual.Name, item.Name)
 }
 
+func (g *Game) SayHello(args ...string) {
+	character, ok := g.Location.Individuals[args[0]]
+
+	if !ok {
+		fmt.Printf("It seems that %v is not available.\n", args[0])
+		return
+	}
+	fmt.Println(character.Phrase)
+}
+
 func (g *Game) Move(to ...string) {
 	location, ok := g.Location.Exits[to[0]]
 
@@ -374,6 +384,13 @@ func parseCommand(cmd string) (string, string) {
 	case "ask":
 		items := parseItem(commands[1:])
 		return "ask", items
+	case "say":
+		command := strings.Join(commands[:3], " ")
+		if command != "say hello to" {
+			return "help", "say hello"
+		}
+		items := parseItem(commands[3:])
+		return "say hello", items
 	default:
 		fmt.Println("Do not understand your command.")
 		return "look", ""

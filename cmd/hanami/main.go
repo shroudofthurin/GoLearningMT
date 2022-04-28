@@ -155,10 +155,10 @@ func CreateCharacters(items game.Items) game.Characters {
 			"Hello! Welcome to the Store, where everything is free!",
 			true,
 		),
-		"cat": game.NewCharacter(
+		"lazy cat": game.NewCharacter(
 			"Lazy Cat",
 			"A fluffy cat is napping the afternoon away in the morning sun.",
-			"gorogoro.",
+			"nyaaaaaaoooooo. gorogoro.",
 			false,
 		),
 		"obaa-chan": game.NewCharacter(
@@ -268,7 +268,7 @@ func CreateLocations(items game.Items, characters game.Characters) game.Location
 	game.SetExits(locations, "garden", "south", "gravel path")
 
 	game.SetCharacters(locations, characters, "store", "store clerk")
-	game.SetCharacters(locations, characters, "engawa", "cat")
+	game.SetCharacters(locations, characters, "engawa", "lazy cat")
 	game.SetCharacters(locations, characters, "tea house", "obaa-chan")
 	game.SetCharacters(locations, characters, "park", "ren")
 
@@ -375,11 +375,18 @@ func CreateCommandList(g *game.Game) game.CommandList {
 		),
 		"ask": game.NewCommand(
 			"Ask",
-			"ask <character> for <item>: Ask character for item "+
+			"ask <character> for <item>: ask character for item "+
 				"in their inventory.",
 			"To ask a character for an item in their inventory "+
 				"e.g. \"ask store clerk for ice\".",
 			g.AskFor,
+		),
+		"say hello": game.NewCommand(
+			"Say Hello",
+			"say hello to <character>: converse with another character.",
+			"To hear what another character has to say, simply type, say "+
+				"hello to followed by their name e.g. \"say hello to ren\".",
+			g.SayHello,
 		),
 		"help": game.NewCommand(
 			"Help",

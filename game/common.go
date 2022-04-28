@@ -22,7 +22,7 @@ func (common *Common) Take(name string) (*Item, bool) {
 }
 
 func (common Common) Info() {
-	fmt.Printf("\n%v\n%v\n", common.Name, common.Description)
+	fmt.Printf("%v\n%v\n", common.Name, common.Description)
 }
 
 func (common Common) ListInventory() {
